@@ -1,0 +1,14 @@
+# JS
+client/public/static/build/*
+node_modules
+npm-debug.log
+
+# Python
+local
+
+# PHP
+vendor
+
+# Common
+logs/*
+config.js

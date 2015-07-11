@@ -1,0 +1,6 @@
+{
+    "realisations": {
+        "path": "./realisations/index.json"
+    },
+    "port": 8080
+}

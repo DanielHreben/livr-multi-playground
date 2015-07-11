@@ -1,0 +1,36 @@
+{
+  "name": "Multy-LIVR-Playground",
+  "version": "0.0.1",
+  "description": "Multy-LIVR Playground",
+  "author": {
+    "name": "Dan",
+    "email": "sdswanderer@gmail.com"
+  },
+  "private": false,
+  "scripts": {
+    "build": "webpack -p",
+    "start": "webpack-dev-server --debug --devtool eval-source-map --output-pathinfo --watch --colors --inline --content-base public --port 8090"
+  },
+  "dependencies": {
+    "bootstrap":       "latest",
+    "bootswatch":      "latest",
+    "livr":            "latest",
+    "react":           "latest",
+    "react-bootstrap": "latest",
+    "relaxed-json":    "latest"
+  },
+  "devDependencies": {
+    "css-loader":         "latest",
+    "jshint-loader":      "latest",
+    "json-loader":        "latest",
+    "less-loader":        "latest",
+    "raw-loader":         "latest",
+    "react-hot-loader":   "latest",
+    "babel":              "latest",
+    "babel-loader":       "latest",
+    "style-loader":       "latest",
+    "url-loader":         "latest",
+    "webpack":            "latest",
+    "webpack-dev-server": "latest"
+  }
+}

@@ -1,0 +1,17 @@
+[{
+    "name": "PHP",
+    "path": "PHP/validate.php",
+    "description": "PHP 5.6; validator/livr dev-master;"
+}, {
+    "name": "Perl",
+    "path": "Perl/validate.pl",
+    "description": "perl 5.20; Validator::LIVR 0.0.9;"
+}, {
+    "name": "Python",
+    "path": "Python/validate.py",
+    "description": "Python 3.4; LIVR 0.4.2;"
+}, {
+    "name": "JavaScript",
+    "path": "JavaScript/validate.js",
+    "description": "Node.js 0.10; livr 0.0.8;"
+}]
