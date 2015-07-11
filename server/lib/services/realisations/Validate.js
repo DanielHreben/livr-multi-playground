@@ -37,7 +37,8 @@ Validate.prototype.execute = function(data) {
         })
         .catch(function(error) {
             realisation.status = 'FATAL';
-            realisation.error  = error.message.replace(new RegExp(process.env.USER, 'g'), '<USER>');
+            var re = new RegExp(['/', process.env.USER, '/'].join(''), 'g');
+            realisation.error  = error.message.replace(re, '/<USER>/');
         })
         .thenResolve(realisation);
     });

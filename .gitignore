@@ -11,4 +11,5 @@ vendor
 
 # Common
 server/logs/*
+server/etc/config.json
 config.js
