@@ -10,5 +10,5 @@ local
 vendor
 
 # Common
-logs/*
+server/logs/*
 config.js

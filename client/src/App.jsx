@@ -35,30 +35,36 @@ let App = React.createClass({
 
     validate() {
         try {
-            api.validate(jsonUtils.parse(this.state.data), jsonUtils.parse(this.state.rules)).then(data => {
-                this.setState({realisations: data.realisations});
-            });
+            let input = jsonUtils.parse(this.state.data);
+            let rules = jsonUtils.parse(this.state.rules);
+
+            api.validate(input, rules)
+                .then(data => {
+                    this.setState({realisations: data.realisations});
+                })
+                .catch(error => console.error(error));
         } catch(e) {
             console.warn(e.message || e);
         }
+
     },
 
     handleIEditorChange(type, text) {
         this.state[type] = text;
-        this.setState(this.state);
-
-        this.updateURL();
-        this.validate();
+        this.setState(this.state, () => {
+            this.updateURL();
+            this.validate();
+        });
     },
 
     handlePresetSelect(preset) {
         this.setState({
             rules: preset.rules,
             data: preset.data,
+        }, () => {
+            this.updateURL();
+            this.validate();
         });
-
-        this.updateURL();
-        this.validate();
     },
 
     updateURL() {
