@@ -1,6 +1,7 @@
 'use strict';
 
-let React  = require('react');
+let React    = require('react');
+let debounce = require('lodash').debounce;
 
 let Row    = require('react-bootstrap/lib/Row');
 let Col    = require('react-bootstrap/lib/Col');
@@ -20,6 +21,7 @@ let api = new API(config.api);
 
 let App = React.createClass({
     componentDidMount() {
+        this.validateDebounced = debounce(this.validate, 2000);
         this.validate();
     },
 
@@ -53,7 +55,7 @@ let App = React.createClass({
         this.state[type] = text;
         this.setState(this.state, () => {
             this.updateURL();
-            this.validate();
+            this.validateDebounced();
         });
     },
 
@@ -63,7 +65,7 @@ let App = React.createClass({
             data: preset.data,
         }, () => {
             this.updateURL();
-            this.validate();
+            this.validateDebounced();
         });
     },
 
