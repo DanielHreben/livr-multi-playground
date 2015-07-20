@@ -21,7 +21,7 @@ let api = new API(config.api);
 
 let App = React.createClass({
     componentDidMount() {
-        this.validateDebounced = debounce(this.validate, 2000);
+        this.validateDebounced = debounce(this.validate, config.debounceInterval);
         this.validate();
     },
 

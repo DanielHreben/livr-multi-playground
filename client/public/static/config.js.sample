@@ -4,5 +4,6 @@ window.config = {
     },
     api: {
         rootUrl: 'http://localhost:8080/api'
-    }
+    },
+    debounceInterval: 1000
 };
