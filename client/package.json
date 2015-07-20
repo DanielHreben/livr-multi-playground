@@ -13,11 +13,10 @@
   },
   "dependencies": {
     "bootstrap":       "latest",
-    "bootswatch":      "latest",
-    "livr":            "latest",
     "react":           "latest",
     "react-bootstrap": "latest",
-    "relaxed-json":    "latest"
+    "relaxed-json":    "latest",
+    "lodash":          "latest"
   },
   "devDependencies": {
     "css-loader":         "latest",
