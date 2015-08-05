@@ -9,7 +9,7 @@
 }, {
     "name": "Python",
     "path": "Python/validate.py",
-    "description": "Python 3.4; LIVR 0.4.2;"
+    "description": "Python 3.4; LIVR 0.4.21;"
 }, {
     "name": "JavaScript",
     "path": "JavaScript/validate.js",
