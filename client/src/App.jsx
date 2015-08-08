@@ -27,7 +27,7 @@ let App = React.createClass({
         this.validateDebounced = () => {
             this.setState({
                 status:  'loading',
-                message: 'Wait for your input...'
+                message: 'Waiting for your input...'
             });
             validateDebounced();
         };
@@ -43,10 +43,10 @@ let App = React.createClass({
             input: parsed.input || parsed.data, //Fallback
             implementations: [],
             fields: {
-            	input: 'primary',
-            	rules: 'primary',
+            	input: '',
+            	rules: '',
             },
-            message:  'Wait for your input...',
+            message:  'Waiting for your input...',
             status:   'pending',
         };
     },
@@ -57,7 +57,7 @@ let App = React.createClass({
         [ 'input', 'rules' ].forEach(field => {
             try {
                 let parsed = jsonUtils.parse(this.state[field]);
-                this.state.fields[field] = 'primary';
+                this.state.fields[field] = '';
                 data[field] =  parsed;
             } catch (error) {
                 console.log(error);
@@ -71,7 +71,7 @@ let App = React.createClass({
 
         this.setState({
             status:  'loading',
-            message: 'Wait for results...'
+            message: 'Waiting for results...'
         });
 
         api.validate(data.input, data.rules)
@@ -123,8 +123,7 @@ let App = React.createClass({
 
     parseURL() {
         try {
-            let decoded = decodeURIComponent(window.location.hash);
-            decoded = decoded.replace(/^#/, '');
+            let decoded = decodeURIComponent(window.location.hash).replace(/^#/, '');
             return jsonUtils.parse( decoded );
         } catch(e) {
             console.warn(e);
