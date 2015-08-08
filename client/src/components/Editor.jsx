@@ -18,6 +18,7 @@ let Editor = React.createClass({
                 value={this.props.value}
                 label={this.props.label}
                 ref="input"
+                bsStyle={this.props.bsStyle}
                 wrapperClassName="Editor wrapper-class"
                 labelClassName="label-class"
                 onChange={this.handleChange} />

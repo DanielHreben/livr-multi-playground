@@ -6,10 +6,11 @@ let debounce = require('lodash').debounce;
 let Row    = require('react-bootstrap/lib/Row');
 let Col    = require('react-bootstrap/lib/Col');
 
-let Editor   = require('./components/Editor.jsx');
-let Output   = require('./components/Output.jsx');
-let HeadMenu = require('./components/HeadMenu.jsx');
-let Footer   = require('./components/Footer.jsx');
+let Editor    = require('./components/Editor.jsx');
+let Output    = require('./components/Output.jsx');
+let HeadMenu  = require('./components/HeadMenu.jsx');
+let Footer    = require('./components/Footer.jsx');
+let StatusBar = require('./components/StatusBar.jsx');
 
 let jsonUtils = require('./jsonUtils');
 let API       = require('./API');
@@ -21,7 +22,16 @@ let api = new API(config.api);
 
 let App = React.createClass({
     componentDidMount() {
-        this.validateDebounced = debounce(this.validate, config.debounceInterval);
+        let validateDebounced = debounce(this.validate, config.debounceInterval);
+
+        this.validateDebounced = () => {
+            this.setState({
+                status:  'loading',
+                message: 'Wait for your input...'
+            });
+            validateDebounced();
+        };
+
         this.validate();
     },
 
@@ -30,25 +40,59 @@ let App = React.createClass({
 
         return {
             rules: parsed.rules,
-            data: parsed.data,
+            input: parsed.input,
             realisations: [],
+            fields: {
+            	input: 'primary',
+            	rules: 'primary',
+            },
+            message:  'Wait for your input...',
+            status:   'pending',
         };
     },
 
     validate() {
-        try {
-            let input = jsonUtils.parse(this.state.data);
-            let rules = jsonUtils.parse(this.state.rules);
+        let data = {};
 
-            api.validate(input, rules)
-                .then(data => {
-                    this.setState({realisations: data.realisations});
-                })
-                .catch(error => console.error(error));
-        } catch(e) {
-            console.warn(e.message || e);
-        }
+        [ 'input', 'rules' ].forEach(field => {
+            try {
+                let parsed = jsonUtils.parse(this.state[field]);
+                this.state.fields[field] = 'primary';
+                data[field] =  parsed;
+            } catch (error) {
+                this.state.fields[field] = 'error';
+            }
+        });
 
+        this.forceUpdate();
+
+        if (data.input === undefined || data.rules === undefined) return;
+
+        this.setState({
+            status:  'loading',
+            message: 'Wait for results...'
+        });
+
+        api.validate(data.input, data.rules)
+            .then(result => {
+                if (!result.status) {
+                    this.setState({
+                        status: 'error',
+                        message: 'Oops! Shit happens!'
+                    });
+
+                    console.error(result.error);
+                    return;
+                }
+
+                this.setState({
+                    status:  'done',
+                    message: 'Done!'
+                });
+                console.log(result);
+                this.setState({realisations: result.realisations});
+            })
+            .catch(error => console.error(error));
     },
 
     handleIEditorChange(type, text) {
@@ -62,7 +106,7 @@ let App = React.createClass({
     handlePresetSelect(preset) {
         this.setState({
             rules: preset.rules,
-            data: preset.data,
+            input: preset.input,
         }, () => {
             this.updateURL();
             this.validateDebounced();
@@ -72,7 +116,7 @@ let App = React.createClass({
     updateURL() {
         window.location.hash = encodeURIComponent(JSON.stringify({
             rules: this.state.rules,
-            data: this.state.data
+            input: this.state.input
         }));
     },
 
@@ -85,7 +129,7 @@ let App = React.createClass({
             console.warn(e);
             return {
                 rules: '{}',
-                data: '{}'
+                input: '{}'
             };
         }
     },
@@ -98,16 +142,22 @@ let App = React.createClass({
                 <Col xs={6}>
                     <Editor label='LIVR Rules'
                             value={this.state.rules}
+                            bsStyle={this.state.fields.rules}
                             onChange={this.handleIEditorChange.bind(this, 'rules')} />
                 </Col>
 
                  <Col xs={6}>
                     <Editor label='Data for validation'
-                            value={this.state.data}
-                            type='data'
-                            onChange={this.handleIEditorChange.bind(this, 'data')} />
+                            value={this.state.input}
+                            bsStyle={this.state.fields.input}
+                            onChange={this.handleIEditorChange.bind(this, 'input')} />
                 </Col>
             </Row>
+
+            <StatusBar status={this.state.status}
+                       message={this.state.message}/>
+
+            <hr/>
 
             {this.state.realisations.map(realisation => {
                 return <div>
