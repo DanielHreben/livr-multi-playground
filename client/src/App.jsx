@@ -40,7 +40,7 @@ let App = React.createClass({
 
         return {
             rules: parsed.rules,
-            input: parsed.input,
+            input: parsed.input || parsed.data, //Fallback
             implementations: [],
             fields: {
             	input: 'primary',
@@ -60,6 +60,7 @@ let App = React.createClass({
                 this.state.fields[field] = 'primary';
                 data[field] =  parsed;
             } catch (error) {
+                console.log(error);
                 this.state.fields[field] = 'error';
             }
         });
