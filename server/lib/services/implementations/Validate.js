@@ -23,28 +23,28 @@ Validate.prototype.validate = function(data) {
 
 Validate.prototype.execute = function(data) {
     var self = this;
-    var realisationsDir = FS.directory(self.realisations.path);
+    var implementationsDir = FS.directory(self.implementations.path);
 
-    var realisationsPromises = self.realisations.list.clone().map(function(realisation) {
+    var implementationsPromises = self.implementations.list.clone().map(function(implementation) {
         return execFile(
-            FS.join(realisationsDir, realisation.path),
+            FS.join(implementationsDir, implementation.path),
             [data.input, data.rules].map(JSON.stringify)
         )
         .spread(JSON.parse)
         .then(function(result) {
-            realisation.status = result.errors ? 'NOT_PASSED' : 'PASSED';
-            realisation.result = result;
+            implementation.status = result.errors ? 'NOT_PASSED' : 'PASSED';
+            implementation.result = result;
         })
         .catch(function(error) {
-            realisation.status = 'FATAL';
+            implementation.status = 'FATAL';
             var re = new RegExp(['/', process.env.USER, '/'].join(''), 'g');
-            realisation.error  = error.message.replace(re, '/<USER>/');
+            implementation.error  = error.message.replace(re, '/<USER>/');
         })
-        .thenResolve(realisation);
+        .thenResolve(implementation);
     });
 
-    return Q.all(realisationsPromises).then(function(realisations) {
-        return {realisations: realisations};
+    return Q.all(implementationsPromises).then(function(implementations) {
+        return {implementations: implementations};
     });
 
 };

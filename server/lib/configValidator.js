@@ -5,7 +5,7 @@ var LIVR      = require('livr');
 function configValidator(config) {
     var validator = new LIVR.Validator({
         port: [ 'required', 'positive_integer' ],
-        realisations: [ 'required', {nested_object: {
+        implementations: [ 'required', {nested_object: {
             path: 'required',
         }} ]
     });

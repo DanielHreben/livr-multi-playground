@@ -41,7 +41,7 @@ let App = React.createClass({
         return {
             rules: parsed.rules,
             input: parsed.input,
-            realisations: [],
+            implementations: [],
             fields: {
             	input: 'primary',
             	rules: 'primary',
@@ -90,7 +90,7 @@ let App = React.createClass({
                     message: 'Done!'
                 });
                 console.log(result);
-                this.setState({realisations: result.realisations});
+                this.setState({implementations: result.implementations});
             })
             .catch(error => console.error(error));
     },
@@ -159,7 +159,7 @@ let App = React.createClass({
 
             <hr/>
 
-            {this.state.realisations.map(realisation => {
+            {this.state.implementations.map(realisation => {
                 return <div>
                     <b>{realisation.name}</b>
                     <br/>

@@ -1,12 +1,12 @@
 'use strict';
 
-var realisations = require('./realisations');
+var implementations = require('./implementations');
 
 function init(params) {
     return {
-        realisations: {
-            Validate:  new realisations.Validate(params),
-            List: new realisations.List(params),
+        implementations: {
+            Validate:  new implementations.Validate(params),
+            List: new implementations.List(params),
         }
     };
 }

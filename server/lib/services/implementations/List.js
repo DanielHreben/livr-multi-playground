@@ -17,9 +17,9 @@ List.prototype.validate = function() {
 List.prototype.execute = function() {
     var self = this;
 
-    var realisations = this.realisations.list;
+    var implementations = this.implementations.list;
 
-    return {realisations: realisations};
+    return {implementations: implementations};
 };
 
 module.exports = List;

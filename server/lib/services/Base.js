@@ -6,9 +6,9 @@ var Validator = require('./Validator');
 
 
 function Base(params) {
-    this.validator    = new Validator();
-    this.realisations = params.realisations;
-    this.config       = params.config;
+    this.validator       = new Validator();
+    this.implementations = params.implementations;
+    this.config          = params.config;
 }
 
 Base.prototype = {

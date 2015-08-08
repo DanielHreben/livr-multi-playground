@@ -6,17 +6,17 @@ class API {
     }
 
     list() {
-        ga('send', 'event', 'realisations', 'list');
+        ga('send', 'event', 'implementations', 'list');
 
-        return fetch(this.rootUrl + '/realisations').then(function(response) {
+        return fetch(this.rootUrl + '/implementations').then(function(response) {
             return response.json();
         });
     }
 
     validate(input, rules) {
-        ga('send', 'event', 'realisations', 'validate');
+        ga('send', 'event', 'implementations', 'validate');
 
-        return fetch(this.rootUrl + '/realisations', {
+        return fetch(this.rootUrl + '/implementations', {
             method: 'post',
             headers: { "Content-type": "application/json; charset=UTF-8" },
             body: JSON.stringify({input: input, rules: rules})

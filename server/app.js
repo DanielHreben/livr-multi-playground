@@ -40,16 +40,16 @@ app.use(bodyParser.json({limit: 1024*1024, verify: function(req, res, buf){
 
 app.use(bodyParser.urlencoded({extended: false}));
 
-var realisations = {
-    path: config.realisations.path,
-    list: require(config.realisations.path),
+var implementations = {
+    path: config.implementations.path,
+    list: require(config.implementations.path),
 };
 
-app.set( 'realisations', realisations );
+app.set( 'implementations', implementations );
 
 var services = require('./lib/services/')({
-    realisations: app.get('realisations'),
-    config:       config.service,
+    implementations: app.get('implementations'),
+    config:          config.service,
 });
 
 var routes = require('./lib/routes/')({
@@ -59,8 +59,8 @@ var routes = require('./lib/routes/')({
 var router = express.Router();
 app.use('/api', router);
 
-router.post('/realisations',  routes.realisations.validate.bind(routes.realisations));
-router.get ('/realisations',  routes.realisations.list.bind(routes.realisations));
+router.post('/implementations',  routes.implementations.validate.bind(routes.implementations));
+router.get ('/implementations',  routes.implementations.list.bind(routes.implementations));
 
 app.listen(config.port);
 
