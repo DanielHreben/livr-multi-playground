@@ -1,10 +1,3 @@
-LIVR Playground
----------------
-
-You can play with it here http://multylivr-playground.ml/
-
-See http://livr-spec.org for spec details.
-
 ## RUN DEVELOPMENT VERSION
 
 1. npm install
