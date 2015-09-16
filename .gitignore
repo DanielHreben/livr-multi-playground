@@ -9,6 +9,9 @@ local
 # PHP
 vendor
 
+# Erlang
+deps/
+
 # Common
 server/logs/*
 server/etc/config.json

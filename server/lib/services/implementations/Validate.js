@@ -26,9 +26,13 @@ Validate.prototype.execute = function(data) {
     var implementationsDir = FS.directory(self.implementations.path);
 
     var implementationsPromises = self.implementations.list.clone().map(function(implementation) {
+        var cwd = FS.join(implementationsDir, implementation.name);
+        var cmd = './validate.' + implementation.extension;
+
         return execFile(
-            FS.join(implementationsDir, implementation.path),
-            [data.input, data.rules].map(JSON.stringify)
+            cmd,
+            [data.input, data.rules].map(JSON.stringify),
+            { cwd: cwd }
         )
         .spread(JSON.parse)
         .then(function(result) {
