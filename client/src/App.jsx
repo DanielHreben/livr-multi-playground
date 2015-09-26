@@ -163,7 +163,7 @@ let App = React.createClass({
                 return <div>
                     <b>{realisation.name}</b>
                     <br/>
-                    <small>{realisation.description}</small>
+                    <small>{realisation.version}</small>
                     <Output value={ realisation }/>
                 </div>
             })}

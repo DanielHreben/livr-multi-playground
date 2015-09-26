@@ -9,6 +9,8 @@ require('bunyan-singletone-facade').init({
     name:      'multylivr-playground'
 });
 
+var Implementations = require('./lib/Implementations');
+
 var express = require('express');
 
 // Middleware
@@ -40,12 +42,7 @@ app.use(bodyParser.json({limit: 1024*1024, verify: function(req, res, buf){
 
 app.use(bodyParser.urlencoded({extended: false}));
 
-var implementations = {
-    path: config.implementations.path,
-    list: require(config.implementations.path),
-};
-
-app.set( 'implementations', implementations );
+app.set( 'implementations', new Implementations(config.implementations) );
 
 var services = require('./lib/services/')({
     implementations: app.get('implementations'),
@@ -59,9 +56,11 @@ var routes = require('./lib/routes/')({
 var router = express.Router();
 app.use('/api', router);
 
-router.post('/implementations',  routes.implementations.validate.bind(routes.implementations));
-router.get ('/implementations',  routes.implementations.list.bind(routes.implementations));
+router.post('/implementations', routes('implementations/validate'));
+router.get ('/implementations', routes('implementations/list'));
 
-app.listen(config.port);
+app.get('implementations').init().then(function() {
+    app.listen(config.port);
+}).done();
 
 module.exports = app;
