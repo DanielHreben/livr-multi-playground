@@ -8,9 +8,13 @@ local
 
 # PHP
 vendor
+composer.lock
 
 # Erlang
 deps/
+
+# Perl
+cpanfile.snapshot
 
 # Common
 server/logs/*
