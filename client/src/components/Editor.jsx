@@ -3,25 +3,30 @@
 let React = require('react');
 let Input = require('react-bootstrap/lib/Input');
 
+let AceEditor = require('react-ace');
+let brace     = require('brace');
+
+require('brace/mode/javascript');
+require('brace/theme/solarized_light');
+
 require('./Editor.less');
 
 let Editor = React.createClass({
-    handleChange() {
-        if (this.props.onChange) {
-            this.props.onChange( this.refs.input.getValue() );
-        }
-    },
-
     render() {
         return (
-           <Input type="textarea"
+            <AceEditor
                 value={this.props.value}
-                label={this.props.label}
-                ref="input"
-                bsStyle={this.props.bsStyle}
-                wrapperClassName="Editor wrapper-class"
-                labelClassName="label-class"
-                onChange={this.handleChange} />
+                name={this.props.label}
+                onChange={this.props.onChange}
+
+                mode="javascript"
+                theme="solarized_light"
+                editorProps={{$blockScrolling: true}}
+                fontSize={16}
+                height={310}
+                width={'100%'}
+                showGutter={false}
+            />
         );
     }
 });

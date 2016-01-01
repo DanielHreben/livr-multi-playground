@@ -2,6 +2,7 @@
   "name": "Multy-LIVR-Playground",
   "version": "0.0.1",
   "description": "Multy-LIVR Playground",
+  "repository": "https://github.com/SDSWanderer/multy-livr-playground.git",
   "author": {
     "name": "Dan",
     "email": "sdswanderer@gmail.com"
@@ -12,24 +13,26 @@
     "start": "webpack-dev-server --debug --devtool eval-source-map --output-pathinfo --watch --colors --inline --content-base public --port 8090"
   },
   "dependencies": {
-    "bootstrap":       "latest",
-    "react":           "latest",
+    "bootstrap": "latest",
+    "brace": "^0.7.0",
+    "lodash": "latest",
+    "react": "latest",
+    "react-ace": "^3.0.0",
     "react-bootstrap": "latest",
-    "relaxed-json":    "latest",
-    "lodash":          "latest"
+    "relaxed-json": "latest"
   },
   "devDependencies": {
-    "css-loader":         "latest",
-    "jshint-loader":      "latest",
-    "json-loader":        "latest",
-    "less-loader":        "latest",
-    "raw-loader":         "latest",
-    "react-hot-loader":   "latest",
-    "babel":              "latest",
-    "babel-loader":       "latest",
-    "style-loader":       "latest",
-    "url-loader":         "latest",
-    "webpack":            "latest",
+    "css-loader": "latest",
+    "jshint-loader": "latest",
+    "json-loader": "latest",
+    "less-loader": "latest",
+    "raw-loader": "latest",
+    "react-hot-loader": "latest",
+    "babel": "latest",
+    "babel-loader": "latest",
+    "style-loader": "latest",
+    "url-loader": "latest",
+    "webpack": "latest",
     "webpack-dev-server": "latest"
   }
 }
