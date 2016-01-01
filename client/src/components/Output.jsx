@@ -1,7 +1,7 @@
 'use strict';
 
-let React = require('react/addons');
-let cx    = React.addons.classSet;
+let React = require('react');
+let cx    = require('classnames');
 
 let Well  = require('react-bootstrap/lib/Well');
 let jsonUtils = require('../jsonUtils');
