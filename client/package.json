@@ -13,26 +13,31 @@
     "start": "webpack-dev-server --debug --devtool eval-source-map --output-pathinfo --watch --colors --inline --content-base public --port 8090"
   },
   "dependencies": {
-    "bootstrap": "latest",
+    "bootstrap": "^3.3.6",
     "brace": "^0.7.0",
-    "lodash": "latest",
-    "react": "latest",
+    "lodash": "^3.10.1",
+    "react": "^0.14.5",
     "react-ace": "^3.0.0",
-    "react-bootstrap": "latest",
-    "relaxed-json": "latest"
+    "react-bootstrap": "^0.28.1",
+    "react-dom": "^0.14.5",
+    "relaxed-json": "^1.0.0"
   },
   "devDependencies": {
-    "css-loader": "latest",
-    "jshint-loader": "latest",
-    "json-loader": "latest",
-    "less-loader": "latest",
-    "raw-loader": "latest",
-    "react-hot-loader": "latest",
-    "babel": "latest",
-    "babel-loader": "latest",
-    "style-loader": "latest",
-    "url-loader": "latest",
-    "webpack": "latest",
-    "webpack-dev-server": "latest"
+    "babel": "^6.3.26",
+    "babel-core": "^6.3.26",
+    "babel-loader": "^6.2.0",
+    "css-loader": "^0.23.1",
+    "file-loader": "^0.8.5",
+    "jshint": "^2.9.1-rc2",
+    "jshint-loader": "^0.8.3",
+    "json-loader": "^0.5.4",
+    "less": "^2.5.3",
+    "less-loader": "^2.2.2",
+    "raw-loader": "^0.5.1",
+    "react-hot-loader": "^1.3.0",
+    "style-loader": "^0.13.0",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.12.9",
+    "webpack-dev-server": "^1.14.0"
   }
 }
