@@ -15,6 +15,7 @@ let StatusBar = require('./components/StatusBar.jsx');
 let jsonUtils = require('./jsonUtils');
 let API       = require('./API');
 let presets   = require('./presets/');
+require('babel-polyfill');
 
 require('./App.less');
 

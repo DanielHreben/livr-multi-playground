@@ -13,6 +13,7 @@
     "start": "webpack-dev-server --debug --devtool eval-source-map --output-pathinfo --watch --colors --inline --content-base public --port 8090"
   },
   "dependencies": {
+    "babel-polyfill": "^6.3.14",
     "bootstrap": "^3.3.6",
     "brace": "^0.7.0",
     "lodash": "^3.10.1",
