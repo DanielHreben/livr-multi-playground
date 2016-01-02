@@ -40,6 +40,17 @@ Implementations.prototype._readSchemas = function() {
 
 Implementations.prototype._detectVersions = function(schemas) {
     var promises = schemas.map(function(schema) {
+
+        if (!schema.scripts.version) {
+            console.error('Version script for ' + name + " not found, skipping...");
+            return;
+        }
+
+        if (!schema.scripts.validate) {
+            console.error('Validate script for ' + name + " not found, skipping...");
+            return;
+        }
+
         return execFile('./' + schema.scripts.version, { cwd: schema.path })
             .spread(function(version) {
                 version = version.trim().split(' ');
@@ -52,6 +63,9 @@ Implementations.prototype._detectVersions = function(schemas) {
                     implementationVersion + ';';
 
                 return schema;
+            })
+            .catch(function(error) {
+                console.error(error, 'Could not run detect version script of ' + schema.name +', skipping... ');
             });
     });
 
@@ -61,15 +75,19 @@ Implementations.prototype._detectVersions = function(schemas) {
 Implementations.prototype.init = function() {
     var self = this;
     return self._readSchemas().then(self._detectVersions).then(function(schemas) {
-        self.schemas = schemas.sort(function(a, b) {
-            if (a.name > b.name) {
-                return 1;
-            }
-            if (a.name < b.name) {
-                return -1;
-            }
-            return 0;
-        });
+        self.schemas = schemas
+            .filter(function(schema) {
+                return !!schema;
+            })
+            .sort(function(a, b) {
+                if (a.name > b.name) {
+                    return 1;
+                }
+                if (a.name < b.name) {
+                    return -1;
+                }
+                return 0;
+            });
 
     });
 };
