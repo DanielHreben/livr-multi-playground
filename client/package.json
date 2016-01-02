@@ -16,6 +16,7 @@
     "babel-polyfill": "^6.3.14",
     "bootstrap": "^3.3.6",
     "brace": "^0.7.0",
+    "classnames": "^2.2.1",
     "lodash": "^3.10.1",
     "react": "^0.14.5",
     "react-ace": "^3.0.0",
