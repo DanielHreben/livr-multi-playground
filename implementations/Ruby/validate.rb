@@ -14,7 +14,4 @@ validator  = LIVR.new(rules)
 output_data = validator.validate(input_data)
 errors      = validator.get_errors()
 
-puts JSON.generate( output_data
-    ? {:output => output_data}
-    : {:errors => errors}
-)
+puts JSON.generate( output_data ? {:output => output_data} : {:errors => errors} )
