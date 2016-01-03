@@ -1,3 +1,7 @@
+if (global.Promise == null) {
+    global.Promise = require('bluebird');
+}
+
 module.exports = {
     entry: "./src/main.jsx",
     output: {

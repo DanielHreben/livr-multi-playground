@@ -7,12 +7,16 @@ let AceEditor = require('react-ace');
 let brace     = require('brace');
 
 require('brace/mode/javascript');
-require('brace/theme/solarized_light');
+require('brace/theme/monokai');
 
 require('./Editor.less');
 
 let Editor = React.createClass({
     render() {
+        let fontSize = 16;
+        let value    = this.props.value;
+        let lines    = value.split('\n').length;
+
         return (
             <AceEditor
                 value={this.props.value}
@@ -20,10 +24,11 @@ let Editor = React.createClass({
                 onChange={this.props.onChange}
 
                 mode="javascript"
-                theme="solarized_light"
+                theme="monokai"
                 editorProps={{$blockScrolling: true}}
+                showPrintMargin={false}
                 fontSize={16}
-                height={310}
+                maxLines={lines}
                 width={'100%'}
                 showGutter={false}
             />

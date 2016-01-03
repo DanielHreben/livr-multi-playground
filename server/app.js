@@ -60,7 +60,9 @@ router.post('/implementations', routes('implementations/validate'));
 router.get ('/implementations', routes('implementations/list'));
 
 app.get('implementations').init().then(function() {
-    app.listen(config.port);
+    app.listen(config.port, function(error) {
+        if (error) throw error;
+    });
 }).done();
 
 module.exports = app;

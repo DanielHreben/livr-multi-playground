@@ -94,7 +94,7 @@ let App = React.createClass({
                 console.log(result);
                 this.setState({implementations: result.implementations});
             })
-            .catch(error => console.error(error));
+            .catch(error => console.error(error, error.stack));
     },
 
     handleIEditorChange(type, text) {
@@ -160,13 +160,8 @@ let App = React.createClass({
 
             <hr/>
 
-            {this.state.implementations.map(realisation => {
-                return <div>
-                    <b>{realisation.name}</b>
-                    <br/>
-                    <small>{realisation.version}</small>
-                    <Output value={ realisation }/>
-                </div>
+            {this.state.implementations.map((realisation, i) => {
+                return <Output key={i} realisation={ realisation } />
             })}
 
             <Footer />
