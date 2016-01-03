@@ -2,30 +2,13 @@
 @error-color: #FCCBCB;
 
 .Output {
-    min-height: 200px;
-    font-size: 0.9em;
-    padding: 0px;
-
-    pre {
-        border: none;
-        color: black;
-        font-family: monospace;
-    }
+    float: right;
 
     &.valid {
-        border: @succes-color solid 3px;
-        background-color: @succes-color;
-        pre {
-            background-color: @succes-color;
-        }
+        border-bottom: 1px solid @succes-color;
     }
 
     &.error {
-        border: @error-color solid 3px;
-        background-color: @error-color;
-
-        pre {
-            background-color: @error-color;
-        }
+        border-bottom: 1px solid @error-color;
     }
 }

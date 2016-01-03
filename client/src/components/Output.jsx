@@ -10,6 +10,7 @@ let AceEditor = require('react-ace');
 let brace     = require('brace');
 
 require('brace/mode/javascript');
+require('brace/mode/plain_text');
 require('brace/theme/monokai');
 
 require('./Output.less');
@@ -20,37 +21,49 @@ let Output = React.createClass({
     render() {
         let realisation = this.props.realisation;
         let status      = realisation.status;
+        let isPassed    = status == 'PASSED';
 
-        let valid;
-        let errors;
+        let value;
+        console.log(status);
+        let statusMessage = {
+            FATAL:      'Validator throws an error',
+            PASSED:     'Validation passed',
+            NOT_PASSED: 'Validation NOT passed'
+        };
 
         if (status == 'FATAL') {
-            errors = realisation.error;
+            value = realisation.error;
         } else {
-            valid  = realisation.result.output;
-            errors = realisation.result.errors;
+            value = jsonUtils.stringify( realisation.result.output || realisation.result.errors );
         }
 
         let outputClasses = cx({
             "Output": true,
-            valid: valid,
-            error: errors
+            valid: isPassed,
+            error: !isPassed
         });
 
         let fontSize = 16;
-        let value    = jsonUtils.stringify( valid || errors );
         let lines    = value.split('\n').length;
 
         return (
             <div>
                 <b>{realisation.name}</b>
+
+                <label className={outputClasses}>
+                    {statusMessage[status]}
+                </label>
+
                 <br/>
-                <small>{realisation.version}</small>
+
+                <small>
+                    {realisation.version}
+                </small>
 
                 <AceEditor
                     value={value}
                     name={realisation.version}
-                    mode="javascript"
+                    mode={ status == "FATAL" ? "plain_text" : "javascript"}
                     theme="monokai"
                     editorProps={{$blockScrolling: true}}
                     showPrintMargin={false}
