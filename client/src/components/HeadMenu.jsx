@@ -38,7 +38,7 @@ let HeadMenu = React.createClass({
                         LIVR PLAYGROUND
                     </NavItem>
 
-                    <DropdownButton key={4} title="Examples">
+                    <DropdownButton id={'headDropdown'} key={4} title="Examples">
                         {this.renderPresetsItems()}
                     </DropdownButton>
 

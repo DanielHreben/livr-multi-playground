@@ -1,8 +1,8 @@
 {
-    name: 'aaaa',
-    phone: '+823832',
+    name: "aaaa",
+    phone: "+823832",
     address: {
-        city: 'Kyiv',
+        city: "Kyiv",
         zip: 1232
     }
 }

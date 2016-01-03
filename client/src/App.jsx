@@ -155,6 +155,8 @@ let App = React.createClass({
                 </Col>
             </Row>
 
+            <br/>
+
             <StatusBar status={this.state.status}
                        message={this.state.message}/>
 
