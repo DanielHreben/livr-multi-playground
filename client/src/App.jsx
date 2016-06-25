@@ -1,7 +1,7 @@
 'use strict';
 
 let React    = require('react');
-let debounce = require('lodash').debounce;
+let debounce = require('lodash/debounce');
 
 let Row    = require('react-bootstrap/lib/Row');
 let Col    = require('react-bootstrap/lib/Col');
