@@ -1,4 +1,4 @@
-Multi LIVR playground
+LIVR Multi Playground
 ---------------------
 
 Web app for play with all LIVR implementations at same time,
