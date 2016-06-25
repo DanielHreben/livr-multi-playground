@@ -1,7 +1,7 @@
 {
   "name": "LIVR-Multi-Playground",
   "version": "1.0.0",
-  "description": "LIVR Multiple Playgrounds",
+  "description": "Multiple Playgrounds for Language Independent Validation Rules (Perl, Ruby, Python, JavaScript, PHP, Erlang)",
   "repository": "https://github.com/SDSWanderer/multy-livr-playground.git",
   "author": {
     "name": "Dan",
