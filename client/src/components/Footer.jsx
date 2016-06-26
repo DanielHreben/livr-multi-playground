@@ -13,7 +13,7 @@ let Footer = React.createClass({
             <Row className='Footer'>
                 <Col xs={12}>
                     <small>
-                        Developed by <a href='http://gplus.to/wanderer' target='_blank'> Dan </a>
+                        Developed by <a href='http://sdswanderer.github.io/about/' target='_blank'> Dan </a>
                     </small>
                 </Col>
             </Row>
