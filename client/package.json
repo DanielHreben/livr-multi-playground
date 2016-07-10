@@ -21,6 +21,7 @@
     "mobx": "^2.3.3",
     "mobx-react": "^3.4.0",
     "mobx-react-devtools": "^4.2.0",
+    "normalize.css": "^4.2.0",
     "react": "^15.1.0",
     "react-ace": "^2.5.0",
     "react-bootstrap": "^0.29.5",

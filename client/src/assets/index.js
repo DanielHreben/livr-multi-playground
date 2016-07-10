@@ -1,4 +1,2 @@
-require('./css/normalize.css');
-
-// External assets
+require('normalize.css/normalize.css');
 require('bootstrap/dist/css/bootstrap.css');
