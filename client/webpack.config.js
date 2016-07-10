@@ -1,7 +1,3 @@
-if (global.Promise == null) {
-    global.Promise = require('bluebird');
-}
-
 module.exports = {
     entry: "./src/main.jsx",
     output: {
@@ -18,45 +14,12 @@ module.exports = {
             { test: /\.jpg$/, loader: "url-loader?limit=10000&mimetype=image/jpg" },
             { test: /\.png$/, loader: "url-loader?limit=10000&mimetype=image/png" },
             { test: /\.svg$/, loader: "url-loader?limit=26000&mimetype=image/svg+xml" },
-            { test: /\.(woff2?|ttf|eot)$/, loader: "url-loader" },
+            { test: /\.(woff2?|ttf|eot)$/, loader: "url-loader?limit=100000" },
 
-            { test: /\.jsx$/, loader: "babel-loader", exclude: [/node_modules/, /public/] },
-            { test: /\.js$/, loader: "babel-loader", exclude: [/node_modules/, /public/] },
+            { test: /\.jsx$/, loader: "babel-loader!eslint-loader", exclude: [/node_modules/, /public/] },
+            { test: /\.js$/, loader: "babel-loader!eslint-loader", exclude: [/node_modules/, /public/] },
 
             { test: /\.json$/, loader: "json-loader"}
         ]
-    },
-    jshint: {
-        // Env
-        "browser": true,
-        "node": true,
-        "jquery": true,
-
-        // Restrictions
-        "bitwise": true,
-        "newcap": false,
-        "noempty": true,
-        "esnext": true,
-        "globalstrict": true,
-        "freeze": true,
-        "undef": true,
-        "unused": true,
-        "maxcomplexity": 25,
-        "latedef": true,
-        "smarttabs": false,
-        "trailing": false,
-        "laxbreak": true,
-
-        // Style
-        "maxparams": 4,
-
-        // Loder options
-        "emitErrors": false,
-        "failOnHint": false,
-
-        "globals": {
-            "$": true,
-            "Promise": true
-        }
     }
 };
