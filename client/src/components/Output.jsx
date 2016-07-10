@@ -14,8 +14,8 @@ import './Output.less';
 const Output = React.createClass({
 
     render() {
-        const realisation = this.props.realisation;
-        const status      = realisation.status;
+        const { implementation }  = this.props;
+        const status      = implementation.status;
         const isPassed    = status === 'PASSED';
 
         let value;
@@ -28,9 +28,9 @@ const Output = React.createClass({
         };
 
         if (status === 'FATAL') {
-            value = realisation.error;
+            value = implementation.error;
         } else {
-            value = jsonUtils.stringify(realisation.result.output || realisation.result.errors);
+            value = jsonUtils.stringify(implementation.result.output || implementation.result.errors);
         }
 
         let outputClasses = cx({
@@ -44,7 +44,7 @@ const Output = React.createClass({
 
         return (
             <div>
-                <b>{realisation.name}</b>
+                <b>{implementation.name}</b>
 
                 <label className={outputClasses}>
                     {statusMessage[status]}
@@ -53,12 +53,12 @@ const Output = React.createClass({
                 <br/>
 
                 <small>
-                    {realisation.version}
+                    {implementation.version}
                 </small>
 
                 <AceEditor
                     value={value}
-                    name={realisation.version}
+                    name={implementation.version}
                     mode={status === 'FATAL' ? 'plain_text' : 'javascript'}
                     theme='monokai'
                     editorProps={{ $blockScrolling: true }}
