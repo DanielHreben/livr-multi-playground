@@ -1,5 +1,3 @@
-'use strict';
-
 let React = require('react');
 
 let Col = require('react-bootstrap/lib/Col');
@@ -9,7 +7,7 @@ import { version } from '../../package.json';
 
 require('./Footer.less');
 
-let Footer = React.createClass({
+const Footer = React.createClass({
     render() {
         return (
             <Row className='Footer'>
@@ -29,4 +27,4 @@ let Footer = React.createClass({
     }
 });
 
-module.exports = Footer;
+export default Footer;

@@ -1,44 +1,40 @@
-'use strict';
+import React from 'react';
+const cx    = require('classnames');
 
-let React = require('react');
-let cx    = require('classnames');
+const jsonUtils = require('../jsonUtils');
 
-let Well  = require('react-bootstrap/lib/Well');
-let jsonUtils = require('../jsonUtils');
+const AceEditor = require('react-ace');
 
-let AceEditor = require('react-ace');
-let brace     = require('brace');
+import 'brace/mode/javascript';
+import 'brace/mode/plain_text';
+import 'brace/theme/monokai';
 
-require('brace/mode/javascript');
-require('brace/mode/plain_text');
-require('brace/theme/monokai');
+import './Output.less';
 
-require('./Output.less');
-
-
-let Output = React.createClass({
+const Output = React.createClass({
 
     render() {
-        let realisation = this.props.realisation;
-        let status      = realisation.status;
-        let isPassed    = status == 'PASSED';
+        const realisation = this.props.realisation;
+        const status      = realisation.status;
+        const isPassed    = status === 'PASSED';
 
         let value;
+
         console.log(status);
-        let statusMessage = {
+        const statusMessage = {
             FATAL:      'Validator throws an error',
             PASSED:     'Validation passed',
             NOT_PASSED: 'Validation NOT passed'
         };
 
-        if (status == 'FATAL') {
+        if (status === 'FATAL') {
             value = realisation.error;
         } else {
-            value = jsonUtils.stringify( realisation.result.output || realisation.result.errors );
+            value = jsonUtils.stringify(realisation.result.output || realisation.result.errors);
         }
 
         let outputClasses = cx({
-            "Output": true,
+            Output: true,
             valid: isPassed,
             error: !isPassed
         });
@@ -63,16 +59,16 @@ let Output = React.createClass({
                 <AceEditor
                     value={value}
                     name={realisation.version}
-                    mode={ status == "FATAL" ? "plain_text" : "javascript"}
-                    theme="monokai"
-                    editorProps={{$blockScrolling: true}}
+                    mode={status === 'FATAL' ? 'plain_text' : 'javascript'}
+                    theme='monokai'
+                    editorProps={{ $blockScrolling: true }}
                     showPrintMargin={false}
                     fontSize={fontSize}
                     maxLines={lines}
                     width={'100%'}
                     showGutter={false}
                     highlightActiveLine={false}
-                    readOnly={true}
+                    readOnly
                 />
                 <br/>
             </div>
@@ -81,4 +77,4 @@ let Output = React.createClass({
 
 });
 
-module.exports = Output;
+export default Output;

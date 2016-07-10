@@ -1,29 +1,27 @@
-'use strict';
-
-let React    = require('react');
-let debounce = require('lodash/debounce');
+import React from 'react';
+const debounce = require('lodash/debounce');
 
 let Row    = require('react-bootstrap/lib/Row');
 let Col    = require('react-bootstrap/lib/Col');
 
-let Editor    = require('./components/Editor.jsx');
-let Output    = require('./components/Output.jsx');
-let HeadMenu  = require('./components/HeadMenu.jsx');
-let Footer    = require('./components/Footer.jsx');
-let StatusBar = require('./components/StatusBar.jsx');
+import Editor  from './components/Editor.jsx';
+import Output    from './components/Output.jsx';
+import HeadMenu  from './components/HeadMenu.jsx';
+import Footer    from './components/Footer.jsx';
+import StatusBar from './components/StatusBar.jsx';
 
-let jsonUtils = require('./jsonUtils');
-let API       = require('./API');
+const jsonUtils = require('./jsonUtils');
+import  API   from './API';
 let presets   = require('./presets/');
-require('babel-polyfill');
+import 'babel-polyfill';
 
-require('./App.less');
+import './App.less';
 
-let api = new API(config.api);
+const api = new API(window.config.api);
 
-let App = React.createClass({
+const App = React.createClass({
     componentDidMount() {
-        let validateDebounced = debounce(this.validate, config.debounceInterval);
+        const validateDebounced = debounce(this.validate, window.config.debounceInterval);
 
         this.validateDebounced = () => {
             this.setState({
@@ -37,27 +35,27 @@ let App = React.createClass({
     },
 
     getInitialState() {
-        let parsed = this.parseURL();
+        const parsed = this.parseURL();
 
         return {
             rules: parsed.rules,
-            input: parsed.input || parsed.data, //Fallback
+            input: parsed.input || parsed.data, // Fallback
             implementations: [],
             fields: {
-            	input: '',
-            	rules: '',
+                input: '',
+                rules: ''
             },
             message:  'Waiting for your input...',
-            status:   'pending',
+            status:   'pending'
         };
     },
 
     validate() {
-        let data = {};
+        const data = {};
 
-        [ 'input', 'rules' ].forEach(field => {
+        ['input', 'rules'].forEach(field => {
             try {
-                let parsed = jsonUtils.parse(this.state[field]);
+                const parsed = jsonUtils.parse(this.state[field]);
                 this.state.fields[field] = '';
                 data[field] =  parsed;
             } catch (error) {
@@ -92,7 +90,7 @@ let App = React.createClass({
                     message: 'Done!'
                 });
                 console.log(result);
-                this.setState({implementations: result.implementations});
+                this.setState({ implementations: result.implementations });
             })
             .catch(error => console.error(error, error.stack));
     },
@@ -108,7 +106,7 @@ let App = React.createClass({
     handlePresetSelect(preset) {
         this.setState({
             rules: preset.rules,
-            input: preset.input,
+            input: preset.input
         }, () => {
             this.updateURL();
             this.validateDebounced();
@@ -124,9 +122,9 @@ let App = React.createClass({
 
     parseURL() {
         try {
-            let decoded = decodeURIComponent(window.location.hash).replace(/^#/, '');
-            return jsonUtils.parse( decoded );
-        } catch(e) {
+            const decoded = decodeURIComponent(window.location.hash).replace(/^#/, '');
+            return jsonUtils.parse(decoded);
+        } catch (e) {
             console.warn(e);
             return {
                 rules: '{}',
@@ -136,39 +134,47 @@ let App = React.createClass({
     },
 
     render() {
-        return <div className="App container">
-            <HeadMenu presets={presets} onPresetClick={this.handlePresetSelect}/>
+        return (
+            <div className='App container'>
+                <HeadMenu presets={presets} onPresetClick={this.handlePresetSelect}/>
 
-            <Row>
-                <Col xs={6}>
-                    <Editor label='LIVR Rules'
+                <Row>
+                    <Col xs={6}>
+                        <Editor label='LIVR Rules'
                             value={this.state.rules}
                             bsStyle={this.state.fields.rules}
-                            onChange={this.handleIEditorChange.bind(this, 'rules')} />
-                </Col>
+                            onChange={this.handleIEditorChange.bind(this, 'rules')}
+                        />
+                    </Col>
 
-                 <Col xs={6}>
-                    <Editor label='Data for validation'
+                    <Col xs={6}>
+                        <Editor
+                            label='Data for validation'
                             value={this.state.input}
                             bsStyle={this.state.fields.input}
-                            onChange={this.handleIEditorChange.bind(this, 'input')} />
-                </Col>
-            </Row>
+                            onChange={this.handleIEditorChange.bind(this, 'input')}
+                        />
+                    </Col>
+                </Row>
 
-            <br/>
+                <br/>
 
-            <StatusBar status={this.state.status}
-                       message={this.state.message}/>
+                <StatusBar
+                    status={this.state.status}
+                    message={this.state.message}
+                />
 
-            <hr/>
+                <hr/>
 
-            {this.state.implementations.map((realisation, i) => {
-                return <Output key={i} realisation={ realisation } />
-            })}
+                {
+                  this.state.implementations.map((realisation, i) =>
+                      <Output key={i} realisation={realisation} />
+                )}
 
-            <Footer />
-        </div>;
+                <Footer />
+            </div>
+        );
     }
 });
 
-module.exports = App;
+export default App;

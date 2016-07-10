@@ -1,4 +1,3 @@
-'use strict';
 import './assets';
 
 import ReactDOM from 'react-dom';
@@ -8,4 +7,4 @@ import { version } from '../package.json';
 
 console.info(`Version ${version}`);
 
-ReactDOM.render( <App/>, document.getElementById('content') );
+ReactDOM.render(<App/>, document.getElementById('content'));

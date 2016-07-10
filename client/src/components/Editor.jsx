@@ -1,20 +1,15 @@
-'use strict';
+import React from 'react';
 
-let React = require('react');
-let Input = require('react-bootstrap/lib/Input');
-
-let AceEditor = require('react-ace');
-let brace     = require('brace');
+const AceEditor = require('react-ace');
 
 require('brace/mode/javascript');
 require('brace/theme/monokai');
 
 require('./Editor.less');
 
-let Editor = React.createClass({
+const Editor = React.createClass({
     render() {
-        let fontSize = 16;
-        let value    = this.props.value;
+        const value    = this.props.value;
         let lines    = value.split('\n').length;
 
         return (
@@ -23,9 +18,9 @@ let Editor = React.createClass({
                 name={this.props.label}
                 onChange={this.props.onChange}
 
-                mode="javascript"
-                theme="monokai"
-                editorProps={{$blockScrolling: true}}
+                mode='javascript'
+                theme='monokai'
+                editorProps={{ $blockScrolling: true }}
                 showPrintMargin={false}
                 fontSize={16}
                 maxLines={lines}
@@ -36,4 +31,4 @@ let Editor = React.createClass({
     }
 });
 
-module.exports = Editor;
+export default Editor;

@@ -1,15 +1,12 @@
-'use strict';
+import React from 'react';
 
-let React = require('react');
-require('./StatusBar.less');
+import './StatusBar.less';
 
-let StatusBar = React.createClass({
-
+const StatusBar = React.createClass({
     render() {
-
-        let statusClass = this.props.status == 'done'
-            ? "notification-icon-done"
-            : "notification-icon-loading";
+        let statusClass = this.props.status === 'done'
+            ? 'notification-icon-done'
+            : 'notification-icon-loading';
 
         return (
             <div className ='StatusBar'>
@@ -21,4 +18,4 @@ let StatusBar = React.createClass({
 
 });
 
-module.exports = StatusBar;
+export default StatusBar;

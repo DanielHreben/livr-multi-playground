@@ -1,5 +1,3 @@
-'use strict';
-
 let React          = require('react');
 
 let NavItem        = require('react-bootstrap/lib/NavItem');
@@ -10,7 +8,7 @@ let MenuItem       = require('react-bootstrap/lib/MenuItem');
 
 require('./HeadMenu.less');
 
-let HeadMenu = React.createClass({
+const HeadMenu = React.createClass({
     getDefaultProps() {
         return {
             presets: []
@@ -23,10 +21,12 @@ let HeadMenu = React.createClass({
     },
 
     renderPresetsItems() {
-        return this.props.presets.map( preset =>
-            <MenuItem key={preset.id} onClick={this.handlePresetClick.bind(this, preset.payload)}>
-                {preset.id}
-            </MenuItem>
+        return (
+            this.props.presets.map(preset =>
+                <MenuItem key={preset.id} onClick={this.handlePresetClick.bind(this, preset.payload)}>
+                  {preset.id}
+                </MenuItem>
+            )
         );
     },
 
@@ -35,14 +35,14 @@ let HeadMenu = React.createClass({
             <Navbar className='HeadMenu'>
                 <Nav>
                     <NavItem key={1} className='sitename'>
-                        LIVR PLAYGROUND
+                        LIVR MULTI PLAYGROUND
                     </NavItem>
 
-                    <DropdownButton id={'headDropdown'} key={4} title="Examples">
+                    <DropdownButton id={'headDropdown'} key={4} title='Examples'>
                         {this.renderPresetsItems()}
                     </DropdownButton>
 
-                    <NavItem key={2} href="http://livr-spec.org/" target="_blank">
+                    <NavItem key={2} href='http://livr-spec.org/' target='_blank'>
                         livr-spec.org
                     </NavItem>
                 </Nav>
@@ -51,4 +51,4 @@ let HeadMenu = React.createClass({
     }
 });
 
-module.exports = HeadMenu;
+export default HeadMenu;
