@@ -16,29 +16,62 @@ ENV app ${home}/livr-multi-playground
 
 RUN useradd -ms /bin/bash playground
 
-COPY ./ ${app}
-RUN chown -R playground:playground ${app}
-
+COPY ./client ${app}/client
+RUN chown -R playground:playground ${app}/client
 USER playground
-WORKDIR ${home}
-
-RUN mkdir .ssh && touch .ssh/known_hosts && ssh-keyscan -H github.com >> .ssh/known_hosts && chmod 600 .ssh/known_hosts
-
-WORKDIR ${app}/server
-RUN cp etc/config.sample.json etc/config.json
-RUN npm i
-
 WORKDIR ${app}/client
 RUN cp public/static/config.js.sample public/static/config.js
 RUN npm i
 RUN npm run build
 
+USER root
+COPY ./server ${app}/server
+RUN chown -R playground:playground ${app}/server
+USER playground
+WORKDIR ${app}/server
+RUN cp etc/config.sample.json etc/config.json
+RUN npm i
+
+USER root
+RUN apt-get install dos2unix
+USER playground
+
+USER root
+COPY ./implementations ${app}/implementations 
+RUN chown -R playground:playground ${app}/implementations
+USER playground
+
+
 WORKDIR ${app}/implementations/JavaScript
+RUN dos2unix ./*
 RUN npm i
 
 WORKDIR ${app}/implementations/Erlang
+RUN dos2unix ./*
 RUN rebar get-deps 
 RUN rebar compile
 
-WORKDIR ${app}/server
-CMD npm start
+WORKDIR ${app}/implementations/PHP
+RUN dos2unix ./*
+RUN composer install
+
+WORKDIR ${app}/implementations/Perl
+RUN dos2unix ./*
+RUN carton install
+
+WORKDIR ${app}/implementations/Python
+RUN dos2unix ./*
+RUN pip3 install -r requirements.txt
+
+WORKDIR ${app}/implementations/Ruby
+RUN dos2unix ./*
+RUN bundler install --path .
+
+USER root
+CMD service nginx start && su - playground -c "cd ${app}/server; npm start" 
+
+#USER root
+#COPY unit /etc/systemd/system/playground.service
+#RUN chmod -x /etc/systemd/system/playground.service
+#RUN systemctl enable playground
+
