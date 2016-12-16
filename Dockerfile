@@ -2,14 +2,12 @@ FROM ubuntu
 
 RUN apt-get update
 RUN apt-get -y install python3-minimal python3-pip
-RUN apt-get -y install erlang rebar
+RUN apt-get -y install erlang-base rebar
 RUN apt-get -y install nodejs nodejs-legacy npm
 RUN apt-get -y install php-cli composer
 RUN apt-get -y install perl carton
 RUN apt-get -y install ruby bundler
 RUN apt-get -y install nginx
-
-COPY nginx.conf /etc/nginx/sites-enabled/playground.conf
 
 ENV home /home/playground
 ENV app ${home}/livr-multi-playground
@@ -37,7 +35,7 @@ RUN apt-get install dos2unix
 USER playground
 
 USER root
-COPY ./implementations ${app}/implementations 
+COPY ./implementations ${app}/implementations
 RUN chown -R playground:playground ${app}/implementations
 USER playground
 
@@ -48,7 +46,7 @@ RUN npm i
 
 WORKDIR ${app}/implementations/Erlang
 RUN dos2unix ./*
-RUN rebar get-deps 
+RUN rebar get-deps
 RUN rebar compile
 
 WORKDIR ${app}/implementations/PHP
@@ -68,10 +66,10 @@ RUN dos2unix ./*
 RUN bundler install --path .
 
 USER root
-CMD service nginx start && su - playground -c "cd ${app}/server; npm start" 
+COPY nginx.conf /etc/nginx/sites-enabled/playground.conf
 
-#USER root
-#COPY unit /etc/systemd/system/playground.service
-#RUN chmod -x /etc/systemd/system/playground.service
-#RUN systemctl enable playground
+RUN apt-get -y install nginx-extras
+
+CMD service nginx start && su - playground -c "cd ${app}/server; npm start"
+
 
