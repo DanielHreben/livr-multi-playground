@@ -1,11 +1,11 @@
-let React = require('react');
+import React from 'react';
 
-let Col = require('react-bootstrap/lib/Col');
-let Row = require('react-bootstrap/lib/Row');
+import Col from 'react-bootstrap/lib/Col';
+import Row from 'react-bootstrap/lib/Row';
 
 import { version } from '../../package.json';
 
-require('./Footer.less');
+import './Footer.less';
 
 const Footer = React.createClass({
     render() {

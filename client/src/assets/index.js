@@ -1,2 +1,2 @@
-require('normalize.css/normalize.css');
-require('bootstrap/dist/css/bootstrap.css');
+import 'normalize.css/normalize.css';
+import 'bootstrap/dist/css/bootstrap.css';

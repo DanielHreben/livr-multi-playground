@@ -1,27 +1,24 @@
-"use strict";
+'use strict'
 
-var LIVR      = require('livr');
+const LIVR = require('livr')
 
-function configValidator(config) {
-    var validator = new LIVR.Validator({
-        port: [ 'required', 'positive_integer' ],
-        implementations: [ 'required', {nested_object: {
-            path: 'required',
-        }} ]
-    });
+function configValidator (config) {
+  const validator = new LIVR.Validator({
+    port: [ 'required', 'positive_integer' ],
+    implementations: [ 'required', {nested_object: {
+      path: 'required'
+    }} ]
+  })
 
-    var clearedConfig = validator.validate(config);
-    var fields        = validator.getErrors();
+  const clearedConfig = validator.validate(config)
+  const fields = validator.getErrors()
 
-    /* istanbul ignore if */
-    if (fields) {
-        var error = "CHECK YOUR CONFIG! \n" + JSON.stringify(fields, null, 4);
-        throw error;
-    }
+  /* istanbul ignore if */
+  if (fields) {
+    throw 'CHECK YOUR CONFIG! \n' + JSON.stringify(fields, null, 4)
+  }
 
-    return clearedConfig;
-
+  return clearedConfig
 }
 
-
-module.exports = configValidator;
+module.exports = configValidator

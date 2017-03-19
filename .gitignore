@@ -20,3 +20,4 @@ cpanfile.snapshot
 server/logs/*
 server/etc/config.json
 config.js
+.DS_Store

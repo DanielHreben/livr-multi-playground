@@ -1,9 +1,9 @@
 import React from 'react';
-const cx    = require('classnames');
+import cx    from 'classnames';
 
-const jsonUtils = require('../jsonUtils');
+import { stringify } from '../jsonUtils';
 
-const AceEditor = require('react-ace');
+import AceEditor from 'react-ace';
 
 import 'brace/mode/javascript';
 import 'brace/mode/plain_text';
@@ -30,17 +30,17 @@ const Output = React.createClass({
         if (status === 'FATAL') {
             value = implementation.error;
         } else {
-            value = jsonUtils.stringify(implementation.result.output || implementation.result.errors);
+            value = stringify(implementation.result.output || implementation.result.errors);
         }
 
-        let outputClasses = cx({
+        const outputClasses = cx({
             Output: true,
             valid: isPassed,
             error: !isPassed
         });
 
-        let fontSize = 16;
-        let lines    = value.split('\n').length;
+        const fontSize = 16;
+        const lines    = value.split('\n').length;
 
         return (
             <div>

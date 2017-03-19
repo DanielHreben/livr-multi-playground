@@ -1,25 +1,18 @@
-'use strict';
+'use strict'
 
-var util = require('util');
-var Base = require('./Base');
-var Q    = require('q');
+const Route = require('./Route')
 
-function Implementations(params) {
-    Implementations.super_.call(this, params);
+class Implementations extends Route {
+  list (req, res) {
+    const promise = this.run('implementations/List', {params: req.query})
+    this.renderPromise(req, res, promise)
+  }
+
+  validate (req, res) {
+    const promise = this.run('implementations/Validate', {params: req.body})
+    this.renderPromise(req, res, promise)
+  }
 }
 
-util.inherits(Implementations, Base);
-
-Implementations.prototype.list = function(req, res) {
-    var params = req.query;
-    var promise = this.run('implementations/List', {params: params});
-    this.renderPromise(req, res, promise);
-};
-
-Implementations.prototype.validate = function(req, res) {
-    var promise = this.run('implementations/Validate', {params: req.body});
-    this.renderPromise(req, res, promise);
-};
-
-module.exports = Implementations;
+module.exports = Implementations
 

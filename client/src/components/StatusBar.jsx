@@ -6,7 +6,7 @@ const StatusBar = React.createClass({
     render() {
         const { status, message } = this.props;
 
-        let statusClass = status === 'done'
+        const statusClass = status === 'done'
             ? 'notification-icon-done'
             : 'notification-icon-loading';
 
