@@ -9,14 +9,14 @@ require('./Editor.less');
 
 const Editor = React.createClass({
     render() {
-        const value    = this.props.value;
+        const { value, label, onChange } = this.props;
         let lines    = value.split('\n').length;
 
         return (
             <AceEditor
-                value={this.props.value}
-                name={this.props.label}
-                onChange={this.props.onChange}
+                value={value}
+                name={label}
+                onChange={onChange}
 
                 mode='javascript'
                 theme='monokai'
