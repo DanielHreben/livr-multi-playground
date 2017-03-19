@@ -1,16 +1,16 @@
 import React from 'react';
 
-const AceEditor = require('react-ace');
+import AceEditor from 'react-ace';
 
-require('brace/mode/javascript');
-require('brace/theme/monokai');
+import 'brace/mode/javascript';
+import 'brace/theme/monokai';
 
-require('./Editor.less');
+import './Editor.less';
 
 const Editor = React.createClass({
     render() {
         const { value, label, onChange } = this.props;
-        let lines    = value.split('\n').length;
+        const lines    = value.split('\n').length;
 
         return (
             <AceEditor

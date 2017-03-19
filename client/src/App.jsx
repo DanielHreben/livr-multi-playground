@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-const debounce = require('lodash/debounce');
+import debounce from 'lodash/debounce';
 
-let Row    = require('react-bootstrap/lib/Row');
-let Col    = require('react-bootstrap/lib/Col');
+import Row       from 'react-bootstrap/lib/Row';
+import Col       from 'react-bootstrap/lib/Col';
 
-import Editor  from './components/Editor.jsx';
+import Editor    from './components/Editor.jsx';
 import Output    from './components/Output.jsx';
 import HeadMenu  from './components/HeadMenu.jsx';
 import Footer    from './components/Footer.jsx';
@@ -13,15 +13,14 @@ import StatusBar from './components/StatusBar.jsx';
 
 import { parseURL, updateURL } from './utils';
 
-const jsonUtils = require('./jsonUtils');
-const presets   = require('./presets/');
+import jsonUtils from './jsonUtils';
+import presets   from './presets/';
 
-import  API   from './API';
-import 'babel-polyfill';
+import  API from './API';
 
 import './App.less';
 
-const api = new API(window.config.api);
+const api = new API();
 
 
 @observer
@@ -68,7 +67,7 @@ class App extends Component {
 
         api.validate(data.input, data.rules)
             .then(result => {
-                if (!result.status) {
+                if (result.error) {
                     this.props.appState.status = 'error';
                     this.props.appState.message = 'Oops! Shit happens!';
 
@@ -111,7 +110,6 @@ class App extends Component {
                     <Col xs={6}>
                         <Editor label='LIVR Rules'
                             value={this.props.appState.rules}
-                            bsStyle={this.props.appState.fields.rules}
                             onChange={this.handleIEditorChange.bind(this, 'rules')}
                         />
                     </Col>
@@ -120,7 +118,6 @@ class App extends Component {
                         <Editor
                             label='Data for validation'
                             value={this.props.appState.input}
-                            bsStyle={this.props.appState.fields.input}
                             onChange={this.handleIEditorChange.bind(this, 'input')}
                         />
                     </Col>

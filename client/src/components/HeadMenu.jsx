@@ -1,12 +1,12 @@
-let React          = require('react');
+import React          from 'react';
 
-let NavItem        = require('react-bootstrap/lib/NavItem');
-let Navbar         = require('react-bootstrap/lib/Navbar');
-let Nav            = require('react-bootstrap/lib/Nav');
-let DropdownButton = require('react-bootstrap/lib/DropdownButton');
-let MenuItem       = require('react-bootstrap/lib/MenuItem');
+import NavItem        from 'react-bootstrap/lib/NavItem';
+import Navbar         from 'react-bootstrap/lib/Navbar';
+import Nav            from 'react-bootstrap/lib/Nav';
+import DropdownButton from 'react-bootstrap/lib/DropdownButton';
+import MenuItem       from 'react-bootstrap/lib/MenuItem';
 
-require('./HeadMenu.less');
+import './HeadMenu.less';
 
 const HeadMenu = React.createClass({
     getDefaultProps() {
@@ -24,7 +24,7 @@ const HeadMenu = React.createClass({
         return (
             this.props.presets.map(preset =>
                 <MenuItem key={preset.id} onClick={this.handlePresetClick.bind(this, preset.payload)}>
-                  {preset.id}
+                    {preset.id}
                 </MenuItem>
             )
         );
