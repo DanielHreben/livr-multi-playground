@@ -1,21 +1,20 @@
-'use strict';
+'use strict'
 
-var Implementations = require('./Implementations');
+const Implementations = require('./Implementations')
 
+function init (services) {
+  const routes = {
+    implementations: new Implementations(services)
+  }
 
-function init(services) {
-    var routes = {
-        implementations: new Implementations(services),
-    };
+  return function (actionName) {
+    const [ routeName, methodName ] = actionName.split('/')
 
-    return function(actionName) {
-        var actionPath = actionName.split('/');
+    const object = routes[ routeName ]
+    const method = object[ methodName ]
 
-        var object = routes[ actionPath[0] ];
-        var method = object[ actionPath[1] ];
-
-        return method.bind(object);
-    };
+    return method.bind(object)
+  }
 }
 
-module.exports = init;
+module.exports = init

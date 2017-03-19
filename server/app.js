@@ -1,68 +1,46 @@
-'use strict';
+'use strict'
 
-/* istanbul ignore next */
-var config  = require('./lib/configValidator')(
-    require( process.env.TEST_MODE ? './etc/config_test' : './etc/config')
-);
-require('bunyan-singletone-facade').init({
-    directory: 'logs',
-    name:      'multylivr-playground'
-});
+const config = require('./lib/configValidator')(require('./etc/config'))
+const Implementations = require('./lib/Implementations')
 
-var Implementations = require('./lib/Implementations');
+const bunyan = require('bunyan')
+const express = require('express')
+const bodyParser = require('body-parser')
 
-var express = require('express');
+const app = express()
 
-// Middleware
-var cors          = require('cors');
-var bodyParser    = require('body-parser');
+app.use(bodyParser.json({limit: 1024 * 1024}))
+app.use(bodyParser.urlencoded({extended: false}))
 
-var app = express();
-app.set('config', config);
+const logger = bunyan.createLogger({name: 'livr-multi-playground'})
 
-app.use(cors({
-    origin:      true,
-    credentials: true,
-}));
+const implementations = new Implementations({
+  config: config.implementations,
+  logger
+})
 
-app.use(bodyParser.json({limit: 1024*1024, verify: function(req, res, buf){
-    /* istanbul ignore next */
-    try {
-        JSON.parse(buf);
-    } catch(e) {
-        res.send({
-            status: 0,
-            error: {
-                code:    'BROKEN_JSON',
-                message: 'Please, verify your json'
-            }
-        });
-    }
-}}));
+const services = require('./lib/services/')({
+  implementations,
+  logger,
+  config: config.service
+})
 
-app.use(bodyParser.urlencoded({extended: false}));
+const routes = require('./lib/routes/')({
+  services,
+  logger
+})
 
-app.set( 'implementations', new Implementations(config.implementations) );
+const router = express.Router()
+app.use('/api', router)
 
-var services = require('./lib/services/')({
-    implementations: app.get('implementations'),
-    config:          config.service,
-});
+router.post('/implementations', routes('implementations/validate'))
+router.get('/implementations', routes('implementations/list'))
 
-var routes = require('./lib/routes/')({
-    services: services,
-});
+async function start () {
+  await implementations.init()
+  await new Promise((resolve, reject) => app.listen(config.port, error => {
+    error ? reject(error) : resolve()
+  }))
+}
 
-var router = express.Router();
-app.use('/api', router);
-
-router.post('/implementations', routes('implementations/validate'));
-router.get ('/implementations', routes('implementations/list'));
-
-app.get('implementations').init().then(function() {
-    app.listen(config.port, function(error) {
-        if (error) throw error;
-    });
-}).done();
-
-module.exports = app;
+start()

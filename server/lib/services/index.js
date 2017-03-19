@@ -1,14 +1,14 @@
-'use strict';
+'use strict'
 
-var implementations = require('./implementations');
+const implementations = require('./implementations')
 
-function init(params) {
-    return {
-        implementations: {
-            Validate:  new implementations.Validate(params),
-            List: new implementations.List(params),
-        }
-    };
+function init (params) {
+  return {
+    implementations: {
+      Validate: new implementations.Validate(params),
+      List: new implementations.List(params)
+    }
+  }
 }
 
-module.exports = init;
+module.exports = init
