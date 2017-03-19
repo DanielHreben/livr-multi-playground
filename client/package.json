@@ -10,8 +10,7 @@
   "private": false,
   "scripts": {
     "start": "webpack-dev-server",
-    "build": "NODE_ENV=production webpack --progress -p",
-    "debug": "webpack --json | webpack-bundle-size-analyzer"
+    "build": "NODE_ENV=production webpack --progress -p"
   },
   "dependencies": {
     "babel-polyfill": "^6.3.14",
@@ -51,7 +50,6 @@
     "style-loader": "^0.14.1",
     "url-loader": "^0.5.7",
     "webpack": "^2.2.1",
-    "webpack-bundle-size-analyzer": "^2.5.0",
     "webpack-dev-server": "^2.4.2"
   }
 }

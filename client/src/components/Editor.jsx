@@ -13,20 +13,23 @@ const Editor = React.createClass({
         const lines    = value.split('\n').length;
 
         return (
-            <AceEditor
-                value={value}
-                name={label}
-                onChange={onChange}
+            <div>
+                <b>{label}</b>
+                <AceEditor
+                    value={value}
+                    name={label}
+                    onChange={onChange}
 
-                mode='javascript'
-                theme='monokai'
-                editorProps={{ $blockScrolling: true }}
-                showPrintMargin={false}
-                fontSize={16}
-                maxLines={lines}
-                width={'100%'}
-                showGutter={false}
-            />
+                    mode='javascript'
+                    theme='monokai'
+                    editorProps={{ $blockScrolling: true }}
+                    showPrintMargin={false}
+                    fontSize={16}
+                    maxLines={lines}
+                    width={'100%'}
+                    showGutter={false}
+                />
+            </div>
         );
     }
 });
