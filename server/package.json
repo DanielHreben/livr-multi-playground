@@ -20,6 +20,7 @@
     "pify": "latest"
   },
   "devDependencies": {
+    "eslint": "latest",
     "nodemon": "latest"
   }
 }

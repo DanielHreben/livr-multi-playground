@@ -1,2 +1,2 @@
-exports.List     = require("./List");
-exports.Validate = require("./Validate");
+exports.List     = require('./List');
+exports.Validate = require('./Validate');

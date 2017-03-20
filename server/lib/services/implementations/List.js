@@ -1,15 +1,13 @@
-'use strict'
-
-const Service = require('../Service')
+const Service = require('../Service');
 
 class List extends Service {
-  validate () {
+    validate() {
 
-  }
+    }
 
-  execute () {
-    return {implementations: this.implementations.list()}
-  }
+    execute() {
+        return { implementations: this.implementations.list() };
+    }
 }
 
-module.exports = List
+module.exports = List;

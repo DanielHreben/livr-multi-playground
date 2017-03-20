@@ -1,23 +1,22 @@
-'use strict'
+const Exception = require('../Exception');
+const LIVR = require('livr');
 
-const Exception = require('../Exception')
-const LIVR = require('livr')
-LIVR.Validator.defaultAutoTrim(true)
+LIVR.Validator.defaultAutoTrim(true);
 
 class Validator {
-  validate (data, rules) {
-    const validator = new LIVR.Validator(rules).prepare()
-    const result = validator.validate(data)
+    validate(data, rules) {
+        const validator = new LIVR.Validator(rules).prepare();
+        const result = validator.validate(data);
 
-    if (!result) {
-      throw new Exception({
-        code: 'FORMAT_ERROR',
-        fields: validator.getErrors()
-      })
+        if (!result) {
+            throw new Exception({
+                code: 'FORMAT_ERROR',
+                fields: validator.getErrors()
+            });
+        }
+
+        return result;
     }
-
-    return result
-  }
 }
 
-module.exports = Validator
+module.exports = Validator;
