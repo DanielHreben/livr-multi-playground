@@ -1,0 +1,18 @@
+sudo: required
+
+language: node_js
+node_js:
+  - "7"
+
+services:
+  - docker
+
+before_install:
+  - docker-compose -f deploy/docker-compose.yml build
+
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker login -u="$HEROKU_EMAIL" -p="$HEROKU_TOKEN" registry.heroku.com
+    docker tag livr-multy-playground registry.heroku.com/livr-playground/web
+    docker push registry.heroku.com/livr-playground/web
+    fi

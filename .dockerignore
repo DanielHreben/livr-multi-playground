@@ -1,4 +1,6 @@
 .git
 Dockerfile
-node_modules
-
+**node_modules
+**logs
+config.js
+**build
