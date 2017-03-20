@@ -1,21 +1,13 @@
-'use strict';
+const Service = require('../Service');
 
-var Q     = require('q');
-var Base  = require('../Base');
-var util  = require('util');
+class List extends Service {
+    validate() {
 
-function List(args) {
-    List.super_.call(this, args);
+    }
+
+    execute() {
+        return { implementations: this.implementations.list() };
+    }
 }
-
-util.inherits(List, Base);
-
-List.prototype.validate = function() {
-    return Q();
-};
-
-List.prototype.execute = function() {
-    return {implementations: this.implementations.list()};
-};
 
 module.exports = List;

@@ -9,29 +9,18 @@
     "type": "git"
   },
   "scripts": {
-    "start": "nodemon app.js",
-    "test": "TEST_MODE=1 mocha --timeout 1000 --reporter spec --ui qunit tests/*",
-    "coverage": "TEST_MODE=1 istanbul cover --  node_modules/mocha/bin/_mocha --timeout 1000 --reporter spec --ui qunit tests/*.js",
-    "daemon_start": "pm2 startOrGracefulReload ./etc/pm2.json",
-    "daemon_stop": "pm2 stop ./etc/pm2.json"
+    "start": "nodemon app.js | bunyan",
+    "start:prod": "node app.js"
   },
   "dependencies": {
     "body-parser": "latest",
     "bunyan": "latest",
-    "bunyan-singletone-facade": "git+https://github.com/WebbyLab/bunyan-singletone-facade.git",
-    "docopt": "latest",
     "express": "latest",
-    "lodash": "latest",
     "livr": "latest",
-    "cors": "latest",
-    "q": "latest",
-    "q-io": "latest"
+    "pify": "latest"
   },
   "devDependencies": {
-    "chai": "latest",
-    "istanbul": "latest",
-    "mocha": "latest",
-    "nodemon": "latest",
-    "supertest": "latest"
+    "eslint": "latest",
+    "nodemon": "latest"
   }
 }

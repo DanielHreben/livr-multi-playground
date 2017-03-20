@@ -1,32 +1,35 @@
 import React from 'react';
 
-const AceEditor = require('react-ace');
+import AceEditor from 'react-ace';
 
-require('brace/mode/javascript');
-require('brace/theme/monokai');
+import 'brace/mode/javascript';
+import 'brace/theme/monokai';
 
-require('./Editor.less');
+import './Editor.less';
 
 const Editor = React.createClass({
     render() {
-        const value    = this.props.value;
-        let lines    = value.split('\n').length;
+        const { value, label, onChange } = this.props;
+        const lines    = value.split('\n').length;
 
         return (
-            <AceEditor
-                value={this.props.value}
-                name={this.props.label}
-                onChange={this.props.onChange}
+            <div>
+                <b>{label}</b>
+                <AceEditor
+                    value={value}
+                    name={label}
+                    onChange={onChange}
 
-                mode='javascript'
-                theme='monokai'
-                editorProps={{ $blockScrolling: true }}
-                showPrintMargin={false}
-                fontSize={16}
-                maxLines={lines}
-                width={'100%'}
-                showGutter={false}
-            />
+                    mode='javascript'
+                    theme='monokai'
+                    editorProps={{ $blockScrolling: true }}
+                    showPrintMargin={false}
+                    fontSize={16}
+                    maxLines={lines}
+                    width={'100%'}
+                    showGutter={false}
+                />
+            </div>
         );
     }
 });

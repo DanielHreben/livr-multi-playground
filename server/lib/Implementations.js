@@ -1,123 +1,113 @@
-'use strict';
-var FS       = require('q-io/fs');
-var Q        = require('q');
-var execFile = Q.denodeify(require('child_process').execFile);
+const pify = require('pify');
+const path = require('path');
+const fs = pify(require('fs'));
+const childProcess = pify(require('child_process'));
 
-function Implementations (params) {
-    this.path = params.path;
-}
+class Implementations {
+    constructor({ config, logger }) {
+        this.path = config.path;
+        this.logger = logger;
+    }
 
-Implementations.prototype._readSchemas = function() {
-    var self = this;
+    async _readSchemas() {
+        const implementationsNames = await fs.readdir(this.path);
 
-    return FS.list(self.path).then(function(implementations) {
-        var implementationsPromises = implementations.map(function(name) {
-            var implementation = {
-                name: name,
-                path: FS.join(self.path, name),
+        const implementations = implementationsNames.map(async name => {
+            const implementation = {
+                name,
+                path: path.join(this.path, name),
                 scripts: {}
             };
 
-            return FS.list(implementation.path).then(function(files) {
+            const files = await fs.readdir(implementation.path);
 
-                files.forEach(function(file) {
-                    if ( file.match(/^validate\.\w{1,6}$/) ) {
-                        implementation.scripts.validate = file;
-                    }
+            for (const fileName of files) {
+                if (fileName.startsWith('validate.')) {
+                    implementation.scripts.validate = fileName;
+                }
 
-                    if ( file.match(/^version\.\w{1,6}$/) ) {
-                        implementation.scripts.version = file;
-                    }
-                });
+                if (fileName.startsWith('version.')) {
+                    implementation.scripts.version = fileName;
+                }
+            }
 
-                return implementation;
-            });
+            return implementation;
         });
 
-        return Q.all(implementationsPromises);
-    });
-};
+        return Promise.all(implementations);
+    }
 
-Implementations.prototype._detectVersions = function(schemas) {
-    var promises = schemas.map(function(schema) {
+    async _detectVersions(schemas) {
+        for (const schema of schemas) {
+            if (!schema.scripts.version) {
+                this.logger.warn(`Version script for ${  schema  } not found, skipping...`);
+                continue;
+            }
 
-        if (!schema.scripts.version) {
-            console.error('Version script for ' + name + " not found, skipping...");
-            return;
+            if (!schema.scripts.validate) {
+                this.logger.warn(`Validate script for ${  schema  } not found, skipping...`);
+                continue;
+            }
+
+            try {
+                const [languageName, languageVersion, implementationName, implementationVersion] =
+                (await childProcess.execFile(
+                    `./${  schema.scripts.version}`,
+                    { cwd: schema.path })
+                )
+                .trim()
+                .split(' ');
+
+                schema.version = `${languageName} ${languageVersion}; ${implementationName} ${implementationVersion};`;
+            } catch (error) {
+                this.logger.warn(error, `Could not run detect version script of ${  schema.name  }, skipping... `);
+            }
         }
 
-        if (!schema.scripts.validate) {
-            console.error('Validate script for ' + name + " not found, skipping...");
-            return;
+        return schemas;
+    }
+
+    async init() {
+        this.schemas = (await this._detectVersions(await this._readSchemas()))
+        .filter(schema => !!schema.version)
+        .sort((a, b) => {
+            if (a.name > b.name) {
+                return 1;
+            }
+            if (a.name < b.name) {
+                return -1;
+            }
+            return 0;
+        });
+    }
+
+    list() {
+        return [ ...this.schemas ];
+    }
+
+    async run(input, rules) {
+        const implementations = this.list();
+
+        for (const implementation of implementations) {
+            try {
+                const result = JSON.parse(await childProcess.execFile(
+                  `./${  implementation.scripts.validate}`,
+                  [input, rules].map(JSON.stringify),
+                  { cwd: implementation.path }
+                ));
+
+                implementation.status = result.errors ? 'NOT_PASSED' : 'PASSED';
+                implementation.result = result;
+            } catch (error) {
+                implementation.status = 'FATAL';
+                const re = new RegExp(['/', process.env.USER, '/'].join(''), 'g');
+
+                implementation.error = error.message.replace(re, '/<USER>/');
+            }
         }
 
-        return execFile('./' + schema.scripts.version, { cwd: schema.path })
-            .spread(function(version) {
-                version = version.trim().split(' ');
-
-                var languageVersion       = version[0] + ' ' + version[1];
-                var implementationVersion = version[2] + ' ' + version[3];
-
-                schema.version =
-                    languageVersion       + '; ' +
-                    implementationVersion + ';';
-
-                return schema;
-            })
-            .catch(function(error) {
-                console.error(error, 'Could not run detect version script of ' + schema.name +', skipping... ');
-            });
-    });
-
-    return Q.all(promises);
-};
-
-Implementations.prototype.init = function() {
-    var self = this;
-    return self._readSchemas().then(self._detectVersions).then(function(schemas) {
-        self.schemas = schemas
-            .filter(function(schema) {
-                return !!schema;
-            })
-            .sort(function(a, b) {
-                if (a.name > b.name) {
-                    return 1;
-                }
-                if (a.name < b.name) {
-                    return -1;
-                }
-                return 0;
-            });
-
-    });
-};
-
-Implementations.prototype.list = function() {
-    return this.schemas.clone();
-};
-
-Implementations.prototype.run = function(input, rules) {
-    var self = this;
-
-    return Q.all( self.list().map(function(implementation) {
-        return execFile(
-            './' + implementation.scripts.validate,
-            [input, rules].map(JSON.stringify),
-            { cwd: implementation.path }
-        )
-        .spread(JSON.parse)
-        .then(function(result) {
-            implementation.status = result.errors ? 'NOT_PASSED' : 'PASSED';
-            implementation.result = result;
-        })
-        .catch(function(error) {
-            implementation.status = 'FATAL';
-            var re = new RegExp(['/', process.env.USER, '/'].join(''), 'g');
-            implementation.error  = error.message.replace(re, '/<USER>/');
-        })
-        .thenResolve(implementation);
-    }) );
-
-};
+        return implementations;
+    }
+}
 
 module.exports = Implementations;

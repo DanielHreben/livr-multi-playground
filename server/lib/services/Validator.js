@@ -1,39 +1,22 @@
-'use strict';
+const Exception = require('../Exception');
+const LIVR = require('livr');
 
-var Q         = require('q');
-var Exception = require('../Exception');
-var LIVR      = require('livr');
 LIVR.Validator.defaultAutoTrim(true);
 
-function Validator() {
-    var defaultRules = {
-        any_object: function() {
-            return function(value) {
-                if ( value === undefined || value === null || value === '' ) return;
-                if ( typeof value != 'object' ) return 'FORMAT_ERROR';
-                return;
-            };
+class Validator {
+    validate(data, rules) {
+        const validator = new LIVR.Validator(rules).prepare();
+        const result = validator.validate(data);
+
+        if (!result) {
+            throw new Exception({
+                code: 'FORMAT_ERROR',
+                fields: validator.getErrors()
+            });
         }
-    };
 
-    LIVR.Validator.registerDefaultRules(defaultRules);
-}
-
-Validator.prototype.validate = function(data, rules) {
-    var validator = new LIVR.Validator(rules).prepare();
-
-    var result = validator.validate(data);
-
-    if (!result) {
-        var exception = new Exception({
-            code:   "FORMAT_ERROR",
-            fields: validator.getErrors()
-        });
-
-        return Q.reject(exception);
+        return result;
     }
-
-    return Q(result);
-};
+}
 
 module.exports = Validator;

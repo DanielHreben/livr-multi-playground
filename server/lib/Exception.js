@@ -1,35 +1,21 @@
-'use strict';
+class Exception extends Error {
+    constructor({ fields, code, message }) {
+        if (!fields) throw new Error('FIELDS REQUIRED');
+        if (!code) throw new Error('MESSAGE REQUIRED');
 
-var util  = require('util');
+        super(code);
 
-function Exception(data) {
-    /* istanbul ignore next */
-    if (!data.fields) throw "FIELDS REQUIRED";
-    /* istanbul ignore next */
-    if (!data.code)   throw "MESSAGE REQUIRED";
+        this.code = code;
+        this.fields = fields;
+        this.message = message;
+    }
 
-    this.fields  = data.fields;
-    this.code    = data.code;
-    this.message = data.message;
+    toHash() {
+        return {
+            fields: this.fields,
+            code: this.code
+        };
+    }
 }
-util.inherits(Exception, Error);
-
-
-Exception.prototype.toHash = function() {
-    return {
-        fields: this.fields,
-        code:   this.code
-    };
-};
-
-Exception.prototype.addPrefix = function(prefix) {
-    var fields = {};
-    fields[prefix] = this.fields;
-
-    this.fields = fields;
-
-    return this;
-}
-
 
 module.exports = Exception;

@@ -1,9 +1,9 @@
 import React from 'react';
-const cx    = require('classnames');
+import cx    from 'classnames';
 
-const jsonUtils = require('../jsonUtils');
+import { stringify } from '../jsonUtils';
 
-const AceEditor = require('react-ace');
+import AceEditor from 'react-ace';
 
 import 'brace/mode/javascript';
 import 'brace/mode/plain_text';
@@ -14,8 +14,8 @@ import './Output.less';
 const Output = React.createClass({
 
     render() {
-        const realisation = this.props.realisation;
-        const status      = realisation.status;
+        const { implementation }  = this.props;
+        const status      = implementation.status;
         const isPassed    = status === 'PASSED';
 
         let value;
@@ -28,23 +28,23 @@ const Output = React.createClass({
         };
 
         if (status === 'FATAL') {
-            value = realisation.error;
+            value = implementation.error;
         } else {
-            value = jsonUtils.stringify(realisation.result.output || realisation.result.errors);
+            value = stringify(implementation.result.output || implementation.result.errors);
         }
 
-        let outputClasses = cx({
+        const outputClasses = cx({
             Output: true,
             valid: isPassed,
             error: !isPassed
         });
 
-        let fontSize = 16;
-        let lines    = value.split('\n').length;
+        const fontSize = 16;
+        const lines    = value.split('\n').length;
 
         return (
             <div>
-                <b>{realisation.name}</b>
+                <b>{implementation.name}</b>
 
                 <label className={outputClasses}>
                     {statusMessage[status]}
@@ -53,12 +53,12 @@ const Output = React.createClass({
                 <br/>
 
                 <small>
-                    {realisation.version}
+                    {implementation.version}
                 </small>
 
                 <AceEditor
                     value={value}
-                    name={realisation.version}
+                    name={implementation.version}
                     mode={status === 'FATAL' ? 'plain_text' : 'javascript'}
                     theme='monokai'
                     editorProps={{ $blockScrolling: true }}
