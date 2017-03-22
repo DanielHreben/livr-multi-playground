@@ -1,0 +1,15 @@
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - docker-compose -f deploy/docker-compose.yml build
+
+script:
+  - echo 'Skip'
+
+after_success:
+  - docker login -u="$HEROKU_EMAIL" -p="$HEROKU_TOKEN" registry.heroku.com
+  - docker tag livr-multy-playground registry.heroku.com/livr-playground/web
+  - docker push registry.heroku.com/livr-playground/web

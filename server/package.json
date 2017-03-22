@@ -15,9 +15,11 @@
   "dependencies": {
     "body-parser": "latest",
     "bunyan": "latest",
+    "compression": "^1.6.2",
     "express": "latest",
     "livr": "latest",
-    "pify": "latest"
+    "pify": "latest",
+    "serve-static": "^1.12.1"
   },
   "devDependencies": {
     "eslint": "latest",

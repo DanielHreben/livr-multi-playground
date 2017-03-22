@@ -18,6 +18,5 @@ cpanfile.snapshot
 
 # Common
 server/logs/*
-server/etc/config.json
-config.js
+client/public/static/config.js
 .DS_Store

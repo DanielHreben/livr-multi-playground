@@ -1,0 +1,6 @@
+.git
+Dockerfile
+**node_modules
+**logs
+config.js
+**build
