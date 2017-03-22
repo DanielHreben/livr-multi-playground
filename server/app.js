@@ -1,14 +1,11 @@
-const config = require('./lib/configValidator')(require('./etc/config'));
-const Implementations = require('./lib/Implementations');
-
 const bunyan = require('bunyan');
 const express = require('express');
 const bodyParser = require('body-parser');
+const serveStatic = require('serve-static');
+const compression = require('compression');
 
-const app = express();
-
-app.use(bodyParser.json({ limit: 1024 * 1024 }));
-app.use(bodyParser.urlencoded({ extended: false }));
+const config = require('./config');
+const Implementations = require('./lib/Implementations');
 
 const logger = bunyan.createLogger({ name: 'livr-multi-playground' });
 
@@ -19,8 +16,7 @@ const implementations = new Implementations({
 
 const services = require('./lib/services/')({
     implementations,
-    logger,
-    config: config.service
+    logger
 });
 
 const routes = require('./lib/routes/')({
@@ -29,7 +25,15 @@ const routes = require('./lib/routes/')({
 });
 
 const router = express.Router();
+const app = express();
 
+app.use(compression());
+app.use(serveStatic(config.client.path, {
+    maxAge: '365d',
+    extensions: [ 'html' ]
+}));
+app.use(bodyParser.json({ limit: 1024 * 1024 }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/api', router);
 
 router.post('/implementations', routes('implementations/validate'));

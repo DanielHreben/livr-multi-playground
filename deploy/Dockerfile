@@ -23,7 +23,6 @@ RUN npm run build
 # server
 COPY ./server ${APP}/server
 WORKDIR ${APP}/server
-RUN cp etc/config.sample.json etc/config.json
 RUN npm install
 
 # implementations
@@ -47,15 +46,5 @@ RUN pip3 install -r requirements.txt
 WORKDIR ${APP}/implementations/Ruby
 RUN bundler install --path .
 
-# nginx
-COPY deploy/nginx.conf /tmp/nginx.conf
-RUN apt-get -y install nginx
-RUN npm install -g envhandlebars
-RUN chown -R www-data:www-data ${APP}/client/public/
-
 WORKDIR ${APP}/server
-CMD envhandlebars < /tmp/nginx.conf > /etc/nginx/sites-enabled/default ;\
-  service nginx start ;\
-  npm start
-
-
+CMD npm start
