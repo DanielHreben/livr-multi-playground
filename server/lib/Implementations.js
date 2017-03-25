@@ -40,12 +40,12 @@ class Implementations {
     async _detectVersions(schemas) {
         for (const schema of schemas) {
             if (!schema.scripts.version) {
-                this.logger.warn(`Version script for ${  schema  } not found, skipping...`);
+                this.logger.warn(`Version script for ${  schema.name  } not found, skipping...`);
                 continue;
             }
 
             if (!schema.scripts.validate) {
-                this.logger.warn(`Validate script for ${  schema  } not found, skipping...`);
+                this.logger.warn(`Validate script for ${  schema.name  } not found, skipping...`);
                 continue;
             }
 
