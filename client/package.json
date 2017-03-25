@@ -26,6 +26,7 @@
     "react-ace": "^4.1.6",
     "react-bootstrap": "^0.30.8",
     "react-dom": "^15.4.2",
+    "react-ga": "^2.1.2",
     "relaxed-json": "^1.0.0"
   },
   "devDependencies": {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import debounce from 'lodash/debounce';
+import ga from 'react-ga';
 
 import Row       from 'react-bootstrap/lib/Row';
 import Col       from 'react-bootstrap/lib/Col';
@@ -20,7 +21,10 @@ import  API from './API';
 
 import './App.less';
 
-const api = new API();
+ga.initialize(window.config.ga.token);
+ga.pageview(window.location.pathname);
+
+const api = new API(ga);
 
 
 @observer

@@ -1,6 +1,10 @@
 export default class API {
+    constructor(ga) {
+        this.ga = ga;
+    }
+
     list() {
-        ga('send', 'event', 'implementations', 'list');
+        this.ga.event({ category: 'implementations', action: 'list' });
 
         return fetch('/api/implementations').then(response =>
             response.json()
@@ -8,7 +12,7 @@ export default class API {
     }
 
     validate(input, rules) {
-        ga('send', 'event', 'implementations', 'validate');
+        this.ga.event({ category: 'implementations', action: 'validate' });
 
         return fetch('/api/implementations', {
             method: 'post',
