@@ -1,6 +1,6 @@
-require('relaxed-json');
+import { transform } from 'relaxed-json';
 
-module.exports = {
-    parse: json => JSON.parse(window.RJSON.transform(json)),
+export default {
+    parse: json => JSON.parse(transform(json)),
     stringify: data => JSON.stringify(data, null, '    ')
 };

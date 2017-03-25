@@ -1,10 +1,10 @@
-const jsonUtils = require('./jsonUtils');
+import { parse } from './jsonUtils';
 
 export function parseURL() {
     try {
         const decoded = decodeURIComponent(window.location.hash).replace(/^#/, '');
 
-        return jsonUtils.parse(decoded);
+        return parse(decoded);
     } catch (e) {
         console.warn(e);
         return {
