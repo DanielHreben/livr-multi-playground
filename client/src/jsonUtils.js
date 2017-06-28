@@ -1,6 +1,11 @@
-import { transform } from 'relaxed-json';
+import relaxedJSON from 'relaxed-json';
 
-export default {
-    parse: json => JSON.parse(transform(json)),
-    stringify: data => JSON.stringify(data, null, '    ')
-};
+export function parse(json) {
+    return JSON.parse(relaxedJSON.transform(json));
+}
+
+export function stringify(data) {
+    return JSON.stringify(data, null, '    ');
+}
+
+export default { parse, stringify };
