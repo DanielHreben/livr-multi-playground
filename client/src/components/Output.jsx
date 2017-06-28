@@ -1,7 +1,7 @@
 import React from 'react';
 import cx    from 'classnames';
 
-import { stringify } from '../jsonUtils';
+import jsonUtils from '../jsonUtils';
 
 import AceEditor from 'react-ace';
 
@@ -30,7 +30,7 @@ const Output = React.createClass({
         if (status === 'FATAL') {
             value = implementation.error;
         } else {
-            value = stringify(implementation.result.output || implementation.result.errors);
+            value = jsonUtils.stringify(implementation.result.output || implementation.result.errors);
         }
 
         const outputClasses = cx({
