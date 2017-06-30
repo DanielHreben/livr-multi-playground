@@ -23,9 +23,9 @@ const HeadMenu = React.createClass({
     renderPresetsItems() {
         return (
             this.props.presets.map(preset =>
-                <MenuItem key={preset.id} onClick={this.handlePresetClick.bind(this, preset.payload)}>
+                (<MenuItem key={preset.id} onClick={this.handlePresetClick.bind(this, preset.payload)}>
                     {preset.id}
-                </MenuItem>
+                </MenuItem>)
             )
         );
     },

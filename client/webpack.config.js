@@ -6,6 +6,7 @@ const prodPlugins = [
             NODE_ENV: JSON.stringify('production')
         }
     }),
+    new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.NoEmitOnErrorsPlugin()
 ];
@@ -97,6 +98,6 @@ module.exports = {
         }
     },
     plugins: process.env.NODE_ENV === 'production'
-    ? prodPlugins
-    : devPlugins
+        ? prodPlugins
+        : devPlugins
 };

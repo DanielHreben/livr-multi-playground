@@ -18,7 +18,6 @@ export default class API {
             method: 'post',
             headers: { 'Content-type': 'application/json; charset=UTF-8' },
             body: JSON.stringify({ input, rules })
-        })
-        .then(response => response.json());
+        }).then(response => response.json());
     }
 }

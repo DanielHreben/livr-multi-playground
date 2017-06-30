@@ -136,9 +136,8 @@ class App extends Component {
 
                 <hr/>
 
-                {
-                  this.props.appState.implementations.map((implementation, i) =>
-                      <Output key={i} implementation={implementation} />
+                {this.props.appState.implementations.map((implementation, i) =>
+                    <Output key={i} implementation={implementation} />
                 )}
 
                 <Footer />
