@@ -56,11 +56,9 @@ class App extends Component {
             try {
                 const parsed = jsonUtils.parse(this.props.appState[field]);
 
-                this.props.appState.fields[field] = '';
                 data[field] =  parsed;
             } catch (error) {
                 console.log(error);
-                this.props.appState.fields[field] = 'error';
             }
         });
 
