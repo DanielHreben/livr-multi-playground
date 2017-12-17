@@ -12,7 +12,7 @@ const Footer = () => {
         <Row className='Footer'>
             <Col xs={12}>
                 <small>
-                    Developed by <a href='http://danielhreben.github.io/about/' rel='noopener noreferrer' target='_blank'> Dan </a>
+                    Developed by <a href='https://github.com/danielhreben' rel='noopener noreferrer' target='_blank'> Dan </a>
                     and <a href='https://github.com/pterolex' rel='noopener noreferrer' target='_blank'>Alexey</a>
                 </small>
                 <br />
