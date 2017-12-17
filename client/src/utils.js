@@ -7,9 +7,10 @@ export function parseURL() {
         return parse(decoded);
     } catch (e) {
         console.warn(e);
+
         return {
-            rules: '{}',
-            input: '{}'
+            rules : '{}',
+            input : '{}'
         };
     }
 }
