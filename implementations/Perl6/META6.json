@@ -1,0 +1,30 @@
+{
+  "name": "META6::bin",
+  "source-url": "https://github.com/DanielHreben/livr-multi-playground.git",
+  "support": {
+    "source": null
+  },
+  "emulates": {},
+  "perl": "6.c",
+  "resources": [],
+  "build-depends": [],
+  "auth": "github:DanielHreben",
+  "excludes": {},
+  "superseded-by": {},
+  "depends": [
+    "JSON::Tiny",
+    "LIVR"
+  ],
+  "tags": [],
+  "license": "Artistic-2.0",
+  "test-depends": [],
+  "provides": {
+  },
+  "version": "0.0.1",
+  "supersedes": {},
+  "authors": [
+    "Daniel Hreben"
+  ],
+  "description": "",
+  "meta6": "0"
+}

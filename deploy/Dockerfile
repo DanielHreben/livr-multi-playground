@@ -14,6 +14,9 @@ RUN apt-get install -y openjdk-8-jdk software-properties-common ;\
   add-apt-repository ppa:cwchien/gradle ;\
   apt-get update ;\
   apt-get -y install gradle
+RUN add-apt-repository ppa:jonathonf/perl6 ;\
+  apt-get update ;\
+  apt-get install -y perl6 zef
 
 ENV APP /var/www/livr-multi-playground
 
@@ -52,6 +55,9 @@ RUN bundler install
 
 WORKDIR ${APP}/implementations/Java
 RUN cd validate; gradle build; gradle installDist; cd ../version; gradle build; gradle installDist;
+
+WORKDIR ${APP}/implementations/Perl6
+RUN zef install .
 
 WORKDIR ${APP}/server
 CMD npm start
