@@ -1,22 +1,14 @@
 {
-  "name": "LIVR-Multi-Playground",
+  "name": "livr-multy-playground",
   "version": "1.0.0",
-  "description": "Multiple Playgrounds for Language Independent Validation Rules (Perl, Ruby, Python, JavaScript, PHP, Erlang)",
-  "repository": "https://github.com/SDSWanderer/multy-livr-playground.git",
-  "author": {
-    "name": "Dan",
-    "email": "sdswanderer@gmail.com"
-  },
-  "private": false,
-  "scripts": {
-    "start": "webpack-dev-server",
-    "build": "NODE_ENV=production webpack --progress -p"
-  },
+  "description": "Web app for test all Language Independent Validation Rules implementations at same time",
+  "main": "webpack.config.js",
   "dependencies": {
     "babel-polyfill": "^6.3.14",
     "bootstrap": "^3.3.7",
     "brace": "^0.10.0",
     "classnames": "^2.2.1",
+    "json5": "^0.5.1",
     "lodash": "^4.13.1",
     "mobx": "^3.1.16",
     "mobx-react": "^4.2.1",
@@ -26,8 +18,7 @@
     "react-ace": "^5.0.1",
     "react-bootstrap": "^0.31.0",
     "react-dom": "^15.6.1",
-    "react-ga": "^2.2.0",
-    "relaxed-json": "^1.0.0"
+    "react-ga": "^2.2.0"
   },
   "devDependencies": {
     "babel": "^6.3.26",
@@ -52,5 +43,29 @@
     "url-loader": "^0.5.9",
     "webpack": "^3.0.0",
     "webpack-dev-server": "^2.5.0"
-  }
+  },
+  "scripts": {
+    "start": "webpack-dev-server",
+    "build": "NODE_ENV=production webpack --progress -p"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanielHreben/livr-multi-playground.git"
+  },
+  "keywords": [
+    "livr",
+    "livr-multi-playground",
+    "livr-online-playground",
+    "validator",
+    "playground"
+  ],
+  "author": {
+    "name": "Daniel Hreben",
+    "email": "daniel.hreben@gmail.com"
+  },
+  "license": "Artistic-2.0",
+  "bugs": {
+    "url": "https://github.com/DanielHreben/livr-multi-playground/issues"
+  },
+  "homepage": "https://github.com/DanielHreben/livr-multi-playground#readme"
 }

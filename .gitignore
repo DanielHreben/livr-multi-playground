@@ -16,6 +16,11 @@ deps/
 # Perl
 cpanfile.snapshot
 
+# Java
+implementations/Java/*/build
+gradle
+.gradle
+
 # Common
 server/logs/*
 client/public/static/config.js

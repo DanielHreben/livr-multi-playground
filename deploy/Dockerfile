@@ -10,6 +10,10 @@ RUN apt-get -y install curl ;\
   curl -sL https://deb.nodesource.com/setup_8.x | bash ;\
   apt-get update ;\
   apt-get -y install nodejs
+RUN apt-get install -y openjdk-8-jdk software-properties-common ;\
+  add-apt-repository ppa:cwchien/gradle ;\
+  apt-get update ;\
+  apt-get -y install gradle
 
 ENV APP /var/www/livr-multi-playground
 
@@ -45,6 +49,9 @@ RUN pip3 install -r requirements.txt
 
 WORKDIR ${APP}/implementations/Ruby
 RUN bundler install
+
+WORKDIR ${APP}/implementations/Java
+RUN cd validate; gradle build; gradle installDist; cd ../version; gradle build; gradle installDist;
 
 WORKDIR ${APP}/server
 CMD npm start

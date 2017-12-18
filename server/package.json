@@ -1,16 +1,10 @@
 {
   "name": "livr-multy-playground",
+  "version": "1.0.0",
+  "description": "Web app for test all Language Independent Validation Rules implementations at same time",
   "main": "app.js",
-  "description": "",
-  "version": "0.0.1",
-  "author": "Dan",
-  "private": false,
-  "repository": {
-    "type": "git"
-  },
-  "scripts": {
-    "start": "nodemon app.js | bunyan",
-    "start:prod": "node app.js"
+  "directories": {
+    "lib": "lib"
   },
   "dependencies": {
     "body-parser": "latest",
@@ -24,5 +18,29 @@
   "devDependencies": {
     "eslint": "latest",
     "nodemon": "latest"
-  }
+  },
+  "scripts": {
+    "start": "nodemon app.js | bunyan",
+    "start:prod": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanielHreben/livr-multi-playground.git"
+  },
+  "keywords": [
+    "livr",
+    "livr-multi-playground",
+    "livr-online-playground",
+    "validator",
+    "playground"
+  ],
+  "author": {
+    "name": "Daniel Hreben",
+    "email": "daniel.hreben@gmail.com"
+  },
+  "license": "Artistic-2.0",
+  "bugs": {
+    "url": "https://github.com/DanielHreben/livr-multi-playground/issues"
+  },
+  "homepage": "https://github.com/DanielHreben/livr-multi-playground#readme"
 }

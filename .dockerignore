@@ -1,5 +1,5 @@
 .git
-Dockerfile
+deploy
 **node_modules
 **logs
 config.js
