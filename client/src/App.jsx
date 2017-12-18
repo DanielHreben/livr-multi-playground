@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes      from 'prop-types';
 import { observer } from 'mobx-react';
 import debounce from 'lodash/debounce';
 import ga from 'react-ga';
@@ -29,11 +30,36 @@ const api = new API(ga);
 
 @observer
 class App extends Component {
+    static propTypes = {
+        appState : PropTypes.shape({
+            rules           : PropTypes.object,
+            input           : PropTypes.string,
+            status          : PropTypes.string,
+            message         : PropTypes.string,
+            implementations : PropTypes.array
+        })
+    }
+    static defaultProps = {
+        appState : {
+            rules           : {},
+            input           : '',
+            status          : '',
+            message         : '',
+            implementations : []
+        }
+    }
+
     componentWillMount() {
         const parsed = parseURL();
+        const defaultPreset = presets[0].payload;
 
-        this.props.appState.rules = parsed.rules;
-        this.props.appState.input = parsed.input || parsed.data; // Fallback
+        if (window.location.hash === '') {
+            this.props.appState.rules = defaultPreset.rules;
+            this.props.appState.input = defaultPreset.input;
+        } else {
+            this.props.appState.rules = parsed.rules;
+            this.props.appState.input = parsed.input || parsed.data; // Fallback
+        }
     }
 
     componentDidMount() {
@@ -49,10 +75,24 @@ class App extends Component {
         this.validate();
     }
 
-    validate() {
+    handleIEditorChange(type, text) {
+        this.props.appState[type] = text;
+        updateURL(this.props.appState.rules, this.props.appState.input);
+        this.validateDebounced();
+    }
+
+    handlePresetSelect = preset => {
+        this.props.appState.rules = preset.rules;
+        this.props.appState.input = preset.input;
+
+        updateURL(this.props.appState.rules, this.props.appState.input);
+        this.validateDebounced();
+    }
+
+    async validate() {
         const data = {};
 
-        ['input', 'rules'].forEach(field => {
+        [ 'input', 'rules' ].forEach(field => {
             try {
                 const parsed = jsonUtils.parse(this.props.appState[field]);
 
@@ -67,37 +107,28 @@ class App extends Component {
         this.props.appState.status = 'loading';
         this.props.appState.message = 'Waiting for results...';
 
-        api.validate(data.input, data.rules)
-            .then(result => {
-                if (result.error) {
-                    this.props.appState.status = 'error';
-                    this.props.appState.message = 'Oops! Shit happens!';
+        try {
+            const result = await api.validate(data.input, data.rules);
 
-                    console.error(result.error);
-                    return;
-                }
+            if (result.error) {
+                this.props.appState.status = 'error';
+                this.props.appState.message = 'Oops! Shit happens!';
 
-                this.props.appState.status = 'done';
-                this.props.appState.message = 'Done!';
+                console.error(result.error);
 
-                console.log(result);
-                this.props.appState.implementations = result.implementations;
-            })
-            .catch(error => console.error(error, error.stack));
-    }
+                return;
+            }
 
-    handleIEditorChange(type, text) {
-        this.props.appState[type] = text;
-        updateURL(this.props.appState.rules, this.props.appState.input);
-        this.validateDebounced();
-    }
+            this.props.appState.status  = 'done';
+            this.props.appState.message = 'Done!';
 
-    handlePresetSelect(preset) {
-        this.props.appState.rules = preset.rules;
-        this.props.appState.input = preset.input;
-
-        updateURL(this.props.appState.rules, this.props.appState.input);
-        this.validateDebounced();
+            console.log(result);
+            this.props.appState.implementations = result.implementations;
+        } catch (error) {
+            console.error(error, error.stack);
+            this.props.appState.status = 'error';
+            this.props.appState.message = 'Network error!';
+        }
     }
 
     render() {
@@ -105,12 +136,13 @@ class App extends Component {
             <div className='App container'>
                 <HeadMenu
                     presets={presets}
-                    onPresetClick={this.handlePresetSelect.bind(this)}
+                    onPresetClick={this.handlePresetSelect}
                 />
 
                 <Row>
                     <Col xs={6}>
-                        <Editor label='LIVR Rules'
+                        <Editor
+                            label='LIVR Rules'
                             value={this.props.appState.rules}
                             onChange={this.handleIEditorChange.bind(this, 'rules')}
                         />
@@ -125,18 +157,23 @@ class App extends Component {
                     </Col>
                 </Row>
 
-                <br/>
+                <br />
 
                 <StatusBar
                     status={this.props.appState.status}
                     message={this.props.appState.message}
                 />
 
-                <hr/>
+                <hr />
 
-                {this.props.appState.implementations.map((implementation, i) =>
-                    <Output key={i} implementation={implementation} />
-                )}
+                {
+                    this.props.appState.implementations.map(implementation => (
+                        <Output
+                            key={implementation.name}
+                            implementation={implementation}
+                        />)
+                    )
+                }
 
                 <Footer />
             </div>
